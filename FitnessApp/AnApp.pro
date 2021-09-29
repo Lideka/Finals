@@ -15,6 +15,7 @@ SOURCES += \
         Exercises.cpp \
         Profile.cpp \
         Lib/Database/Database.cpp
+        Lib/Database/Database.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
