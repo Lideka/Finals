@@ -14,7 +14,6 @@ SOURCES += \
         Elements.cpp \
         Exercises.cpp \
         Profile.cpp \
-        Lib/Database/Database.cpp
         Lib/Database/Database.cpp \
         main.cpp
 
