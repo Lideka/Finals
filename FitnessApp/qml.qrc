@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>PopupWindow.qml</file>
+        <file>CallendarView.qml</file>
+        <file>Pictures/callendarLogo.png</file>
+        <file>Pictures/notesLogo.png</file>
+        <file>DayInfoView.qml</file>
+        <file>ProfileView.qml</file>
+        <file>ElementsView.qml</file>
+        <file>Pictures/exercisesLogo.png</file>
+        <file>Pictures/dishesLogo.png</file>
+        <file>ElementInfoView.qml</file>
+        <file>ElementAddRemoveView.qml</file>
+        <file>DayAddRemoveView.qml</file>
+    </qresource>
+</RCC>
