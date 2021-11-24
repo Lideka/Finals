@@ -61,3 +61,6 @@ Builds/FitnessAppDebugBuild/debug/qrc_qml.obj
 Builds/FitnessAppDebugBuild/Makefile
 Builds/FitnessAppDebugBuild/Makefile.Debug
 Builds/FitnessAppDebugBuild/Makefile.Release
+FitnessApp/AnApp.pro.user
+FitnessApp/AnApp.pro.user
+Builds/FitnessAppDebug/debug/moc_Fasting.cpp
