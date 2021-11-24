@@ -13,6 +13,8 @@ SOURCES += \
         Dishes.cpp \
         Elements.cpp \
         Exercises.cpp \
+        Fasting.cpp \
+        Home.cpp \
         Profile.cpp \
         Lib/Database/Database.cpp \
         main.cpp
@@ -40,6 +42,8 @@ HEADERS += \
     Dishes.h \
     Elements.h \
     Exercises.h \
+    Fasting.h \
+    Home.h \
     Profile.h \
     Lib/Database/Database.h
 
