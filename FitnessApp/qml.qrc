@@ -13,5 +13,13 @@
         <file>ElementInfoView.qml</file>
         <file>ElementAddRemoveView.qml</file>
         <file>DayAddRemoveView.qml</file>
+        <file>Pictures/homeLogo.png</file>
+        <file>Pictures/fastingLogo.png</file>
+        <file>Pictures/settingsLogo.png</file>
+        <file>Home.qml</file>
+        <file>Fasting.qml</file>
+        <file>Settings.qml</file>
+        <file>Pictures/emptyWaterDropIcon.png</file>
+        <file>Pictures/fullWaterDropIcon.png</file>
     </qresource>
 </RCC>

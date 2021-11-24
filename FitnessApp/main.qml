@@ -31,7 +31,7 @@ Window {
     property int secondWindowWidth: window.width
     property int secondWindowHeight: window.height - bottomBox.height
 
-    property string windowTitle: "Main menu"
+    property string windowTitle: "Home"
 
     //ElementsView properties
     //property bool isExercisesSelected: false
@@ -52,9 +52,11 @@ Window {
 
         x: 0
         y: 0
+
+        source: "Home.qml"
     }
 
-    Text {
+    /*Text {
         id: name
         anchors.centerIn: parent
         text: qsTr("Sveiki atvykę į pagrindinį puslapį!")
@@ -62,7 +64,7 @@ Window {
         font.pixelSize: 30
 
         visible: contentLoader.source == "" ? true : false
-    }
+    }*/
 
     //Main window interface code
 
@@ -89,92 +91,60 @@ Window {
     }
 
 
-    Rectangle {
+
+    property variant buttons: [
+        { name: "Namai",        file: "Home.qml",          image: "Pictures/homeLogo.png" },
+        { name: "Pasnikas",     file: "Fasting.qml",       image: "Pictures/fastingLogo.png" },
+        { name: "Kalendorius",  file: "CallendarView.qml", image: "Pictures/callendarLogo.png" },
+        { name: "#4",           file: "ElementsView.qml",  image: "Pictures/dishesLogo.png" },
+        { name: "Nustatymai",   file: "Settings.qml",      image: "Pictures/settingsLogo.png" }
+    ];
+
+
+
+    Component.onCompleted: {
+        console.log("completed");
+
+        console.log("buttons length: " + buttons.length)
+    }
+
+    GridView {
         id: bottomBox
 
-        width: window.width //Bottom bar is screen wide
-        height: 100 //Custom height
+        width: window.width
+        height: 100
 
         y: window.height - height //This is at the bottom (height of the window - this object height)
 
-        Rectangle {
-            id: callendarButton
+        cellWidth: window.width / buttons.length; cellHeight: 100
 
-            width: parent.width / 3
+        interactive: false //?
+
+        model: buttons
+
+        delegate: Rectangle {
+            width: parent.width / buttons.length
             height: parent.height
 
-            Image{
-                id: callendarIcon
-
-                anchors.left: parent.left
-
+            Image {
                 height: 80
                 width: 76.5
 
                 anchors.centerIn: parent
 
-                source: "Pictures/callendarLogo.png"
+                source: buttons[index].image
             }
 
             MouseArea{
                 anchors.fill: parent
 
                 onClicked: {
-                    contentLoader.source = "CallendarView.qml"
-                    windowTitle = "Kalendorius"
+                    contentLoader.source = buttons[index].file
+                    windowTitle = buttons[index].name
                 }
             }
 
             border.width: 1
-        }
-
-        Rectangle {
-            id: elementsButton
-
-            width: parent.width / 3
-            height: parent.height
-
-            anchors.left: callendarButton.right
-
-            Image{
-                id: elementsIcon
-
-                anchors.left: parent.left
-
-                height: 80
-                width: 76.5
-
-                anchors.centerIn: parent
-
-                source: "Pictures/notesLogo.png"
-            }
-
-            MouseArea{
-                anchors.fill: parent
-
-                onClicked: {
-                    contentLoader.source = "ElementsView.qml"
-                    windowTitle = "Sistemoje esantys pratimai ir patiekalai"
-
-                    Elements.updateLists()
-
-                    Elements.isExercisesSelected = false
-                    Elements.isDishesSelected = false
-                }
-            }
-
-            border.width: 1
-        }
-
-        Button{
-            id: stepsButton
-
-            anchors.left: elementsButton.right
-
-            width: parent.width / 3
-            height: parent.height
-
-            text: "3"
         }
     }
 
