@@ -64,3 +64,4 @@ Builds/FitnessAppDebugBuild/Makefile.Release
 FitnessApp/AnApp.pro.user
 FitnessApp/AnApp.pro.user
 Builds/FitnessAppDebug/debug/moc_Fasting.cpp
+Builds/FitnessAppDebug/debug/Fasting.obj
