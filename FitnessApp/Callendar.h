@@ -6,57 +6,47 @@
 class Callendar : public QObject
 {
     Q_OBJECT
-
-private:
-    QStringList m_YearList = {};
-    QStringList m_DateList = {};
-
-    QStringList m_ExercisesCountList = {};
-    QStringList m_DishesCountList = {};
-
-    int m_selectedDay = 0;
-
-    struct day_t {
-        QString year;
-        QString date;
-        int calories;
-
-        std::vector<int> dishes;      //Nurodo vieta, kokie patiekalai paimti iš globalaus listo
-        std::vector<int> exercises;   //Nurodo vieta, kokie pratimai paimti iš globalaus listo
-    };
-    std::vector<day_t> m_daysList;
-
 public:
-    explicit Callendar(QObject *parent = nullptr);
+    explicit Callendar(bool isFirstLaunch, QObject *parent = nullptr);
 
-    Q_PROPERTY(QStringList yearList MEMBER m_YearList NOTIFY YearListChanged);
-    Q_PROPERTY(QStringList dateList MEMBER m_DateList NOTIFY DateListChanged);
-
-    Q_PROPERTY(QStringList exercisesCountList MEMBER m_ExercisesCountList NOTIFY ExercisesCountListChanged);
-    Q_PROPERTY(QStringList dishesCountList MEMBER m_DishesCountList NOTIFY DishesCountListChanged);
-
-    Q_PROPERTY(int selectedDay MEMBER m_selectedDay NOTIFY SelectedDayChanged);
+    //Doesn't work with a notifier, but is it needed though?
+    Q_PROPERTY(int selectedYear MEMBER m_SelectedYear);
+    Q_PROPERTY(int selectedMonth MEMBER m_SelectedMonth);
+    Q_PROPERTY(QStringList daysList READ GetDaysList NOTIFY DaysListChanged);
 
     Q_INVOKABLE void updateLists();
 
-    void AddToList(QString year, QString date, std::vector<int> exercises, std::vector<int> dishes);
-
-    void AddElement(int index, bool isExerciseSelected);
-    void RemoveElement(int index, bool isExerciseSelected);
-
-    void GetDayInfo(QString &year, QString &date, std::vector<int> &exercises, std::vector<int> &dishes);
-
-    int SelectedDay();
-
 signals:
-    void YearListChanged();
-    void DateListChanged();
+    void DaysListChanged();
 
-    void ExercisesCountListChanged();
-    void DishesCountListChanged();
+private:
 
-    void SelectedDayChanged();
+//Q_PROPERTY variables
+    QStringList m_YearList = {};
+    QStringList m_MonthsList = {};
 
+    QStringList GetDaysList();
+
+    int m_SelectedYear = -1;
+    int m_SelectedMonth = -1;
+
+    int m_CurrentYear = -1;
+    int m_CurrentMonth = -1;
+
+//Q_PROPERTY variables --end
+
+    struct DayInfo_t {
+       int Id;
+       int Year;
+       int Month;
+       int Day;
+    };
+
+    std::vector<DayInfo_t> m_DaysInfo;
+
+
+//helpers
+    int GetNumberOfDays(int month, int year);
 };
 
 extern Callendar* GlobalCallendar;

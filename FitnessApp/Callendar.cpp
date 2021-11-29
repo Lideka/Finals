@@ -1,110 +1,71 @@
 #include "Callendar.h"
 
+#include "Database.h"
+
 //#include <QtCharts>
 
 //using namespace QtCharts;
 
 #include <QDebug>
+#include <ctime>
 
 Callendar* GlobalCallendar = nullptr;
 
-Callendar::Callendar(QObject *parent) : QObject(parent)
+Callendar::Callendar(bool isFirstLaunch, QObject *parent) : QObject(parent)
 {
-    //Listas užpildomas užsikrovus programai
+   //Find current year and month
+   std::time_t t = std::time(nullptr);
+   std::tm *const pTInfo = std::localtime(&t);
 
-    AddToList("2021", "01-01", {1, 1, 1, 0}, {1, 1, 1, 0});
-    AddToList("2021", "01-02", {1, 1, 1, 0}, {1, 1, 1, 0});
-    AddToList("2021", "01-03", {1, 1, 1, 0}, {1, 1, 1, 0});
-    AddToList("2021", "01-04", {1, 1, 1, 0}, {1, 1, 1, 0});
-    AddToList("2021", "01-05", {1, 1, 1, 0}, {1, 1, 1, 0});
-    AddToList("2021", "01-06", {1, 1, 1, 0}, {1, 1, 1, 0});
-    AddToList("2021", "01-07", {1, 1, 1, 0}, {1, 1, 1, 0});
+   m_CurrentYear = 1900 + pTInfo->tm_year;
+   m_CurrentMonth = pTInfo->tm_mon + 1;
 
-    AddToList("2021", "01-08", {1, 1}, {1, 1, 0});
-    AddToList("2021", "01-09", {1, 1}, {1, 1, 0});
-    AddToList("2021", "01-10", {1, 1}, {1, 1, 0});
-    AddToList("2021", "01-11", {1, 1}, {1, 1, 0});
-    AddToList("2021", "01-12", {1, 1}, {1, 1, 0});
-    AddToList("2021", "01-13", {1, 1}, {1, 1, 0});
-    AddToList("2021", "01-14", {1, 1}, {1, 1, 0});
-
-    AddToList("2021", "01-15", {1, 1, 0}, {1, 1, 0});
-    AddToList("2021", "01-16", {1, 1, 0}, {1, 1, 0});
-    AddToList("2021", "01-17", {1, 1, 0}, {1, 1, 0});
-    AddToList("2021", "01-18", {1, 1, 0}, {1, 1, 0});
-    AddToList("2021", "01-19", {1, 1, 0}, {1, 1, 0});
-    AddToList("2021", "01-20", {1, 1, 0}, {1, 1, 0});
-    AddToList("2021", "01-21", {1, 1, 0}, {1, 1, 0});
-
-    AddToList("2021", "01-22", {1, 1, 0}, {1, 1, 0});
-    AddToList("2021", "01-23", {1, 1, 0}, {1, 1, 0});
-    AddToList("2021", "01-24", {1, 1, 0}, {1, 1, 0});
-    AddToList("2021", "01-25", {1, 1, 0}, {1, 1, 0});
-    AddToList("2021", "01-26", {1, 1, 0}, {1, 1, 0});
-    AddToList("2021", "01-27", {1, 1, 0}, {1, 1, 0});
-    AddToList("2021", "01-28", {1, 1, 0}, {1, 1, 0});
-
-    AddToList("2021", "01-29", {1, 1, 0}, {1, 1, 0});
-    AddToList("2021", "01-30", {1, 1, 0}, {1});
-    AddToList("2021", "01-31", {1, 1, 0}, {1, 1, 0});
-}
-
-void Callendar::AddToList(QString year, QString date, std::vector<int> exercises, std::vector<int> dishes){
-
-    day_t Day;
-    Day.year = year;
-    Day.date = date;
-    Day.exercises = exercises;
-    Day.dishes = dishes;
-
-    m_daysList.push_back(Day);
-}
-
-void Callendar::AddElement(int index, bool isExerciseSelected){
-    if(isExerciseSelected)
-        m_daysList.at(m_selectedDay).exercises.push_back(index);
-    else
-        m_daysList.at(m_selectedDay).dishes.push_back(index);
-}
-
-void Callendar::RemoveElement(int index, bool isExerciseSelected){
-    if(isExerciseSelected)
-        m_daysList.at(m_selectedDay).exercises.erase(m_daysList.at(m_selectedDay).exercises.begin() + index);
-    else
-        m_daysList.at(m_selectedDay).dishes.erase(m_daysList.at(m_selectedDay).dishes.begin() + index);
-}
-
-void Callendar::GetDayInfo(QString &year, QString &date, std::vector<int> &exercises, std::vector<int> &dishes){
-    year = m_daysList.at(m_selectedDay).year;
-    date = m_daysList.at(m_selectedDay).date;
-    exercises = m_daysList.at(m_selectedDay).exercises;
-    dishes = m_daysList.at(m_selectedDay).dishes;
-
-    qDebug() << year;
-    qDebug() << date;
+   //By default, we show current year and month on first open
+   m_SelectedYear = m_CurrentYear;
+   m_SelectedMonth = m_CurrentMonth;
 }
 
 void Callendar::updateLists(){
-    m_YearList.clear();
-    m_DateList.clear();
-    m_ExercisesCountList.clear();
-    m_DishesCountList.clear();
+   m_YearList.clear();
+   m_MonthsList.clear();
 
+   m_DaysInfo.clear();
 
-    for(day_t day : m_daysList){
-        m_YearList.push_back(day.year);
-        m_DateList.push_back(day.date);
-        m_ExercisesCountList.push_back(std::to_string(day.exercises.size()).c_str());
-        m_DishesCountList.push_back(std::to_string(day.dishes.size()).c_str());
-    }
+   int daysInCurrentMonth = GetNumberOfDays(m_SelectedMonth, m_SelectedYear);
 
-    emit YearListChanged();
-    emit DateListChanged();
-    emit ExercisesCountListChanged();
-    emit DishesCountListChanged();
+   for(int i = 1; i <= daysInCurrentMonth; i++)
+      m_DaysInfo.push_back({ m_SelectedYear, m_SelectedMonth, i });
+
+   emit DaysListChanged();
 }
 
-int Callendar::SelectedDay(){
-    return m_selectedDay;
+QStringList Callendar::GetDaysList()
+{
+   QStringList retval;
+
+   for (DayInfo_t dayInfo : m_DaysInfo)
+   {
+      if(dayInfo.Year == m_SelectedYear && dayInfo.Month == m_SelectedMonth)
+         retval.push_back(QString::number(dayInfo.Day));
+   }
+
+   return retval;
 }
 
+//Helpers
+int Callendar::GetNumberOfDays(int month, int year)
+{
+   //leap year condition, if month is 2
+   if( month == 2)
+   {
+      if((year%400==0) || (year%4==0 && year%100!=0))
+         return 29;
+      else
+         return 28;
+   }
+   //months which has 31 days
+   else if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 ||month == 10 || month==12)
+      return 31;
+   else
+      return 30;
+}

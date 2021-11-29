@@ -34,13 +34,15 @@ public:
     void Open();
     void Close();
 
-    QList<QVariantList> ExecuteSelectQuerry(std::string Table, std::string Tabs);
+    bool ExecuteCustomQuerry(std::string Querry, QList<QVariantList> *resultArray = nullptr, int TabCount = 0);
 
-    //Not sure if bool is needed
-    bool ExecuteInsertQuerry(std::string Table, std::string Tabs, std::string Values);
+    QList<QVariantList> ExecuteSelectQuerry(std::string Table, std::string Tabs, std::string Where = "");
+    bool ExecuteInsertQuerry(std::string Table, std::string Tabs, std::string Values);//Not sure if bool is needed
 
 private:
     QSqlDatabase m_Database;
 };
+
+extern Database* GlobalDatabase;
 
 #endif // DATABASE_H

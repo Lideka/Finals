@@ -10,7 +10,7 @@ public:
     explicit DayInfo(QObject *parent = nullptr);
 
     Q_PROPERTY(QString year MEMBER m_Year NOTIFY YearChanged);
-    Q_PROPERTY(QString date MEMBER m_Date NOTIFY DateChanged);
+    Q_PROPERTY(QString month MEMBER m_Month NOTIFY MonthChanged);
     Q_PROPERTY(QString calories MEMBER m_Calories NOTIFY CaloriesChanged);
 
     Q_PROPERTY(QStringList exercisesList MEMBER m_ExercisesList NOTIFY ExercisesListChanged);
@@ -29,7 +29,8 @@ public:
 
 signals:
     void YearChanged();
-    void DateChanged();
+    void MonthChanged();
+    void DayChanged();
     void CaloriesChanged();
 
     void ExercisesListChanged();
@@ -40,7 +41,8 @@ signals:
 
 private:
     QString m_Year;
-    QString m_Date;
+    QString m_Month;
+    QString m_Day;
     QString m_Calories;
 
     QStringList m_ExercisesList;

@@ -1,18 +1,15 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-#include "Exercises.h"
-#include "Dishes.h"
+#include "Database.h"
 
 //classes connected to view qml files
 #include "Callendar.h"
 #include "Elements.h"
 #include "DayInfo.h"
 #include "Home.h"
-
-/*#include <ctime>
-#include <iostream>
-#include <QDebug>*/
+#include "Exercises.h"
+#include "Dishes.h"
 
 int main(int argc, char *argv[])
 {
@@ -28,14 +25,32 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
    }, Qt::QueuedConnection);
 
+
+   //Create and connect global main database
+   Database db("I:/Projects/Finals/FitnessApp/Lib/Database/Database.db");
+   GlobalDatabase = &db;
+
+   //Check if the app is launched for the first time
+   GlobalDatabase->Open();
+   QList<QVariantList> Name = GlobalDatabase->ExecuteSelectQuerry("User", "Name");
+   GlobalDatabase->Close();
+
+
+
+   //Use this where needed
+   bool isFirstLaunch = Name.empty();
+   qDebug() << "Is first launch: " << isFirstLaunch;
+
+
+
+   //Create global qml controllers
    Exercises* exercises = new Exercises();
    GlobalExercises = exercises;
 
    Dishes* dishes = new Dishes();
    GlobalDishes = dishes;
 
-
-   Callendar callendar;
+   Callendar callendar(isFirstLaunch);
    qmlRegisterSingletonInstance("Callendar", 1, 0, "Callendar", &callendar);
    GlobalCallendar = &callendar;
 
@@ -48,21 +63,9 @@ int main(int argc, char *argv[])
    Home home;
    qmlRegisterSingletonInstance("Home", 1, 0, "Home", &home);
 
+   //Create global qml controllers --end
+
    engine.load(url);
-
-   //Get current date overall
-   /*std::time_t t = std::time(nullptr);
-   std::tm *const pTInfo = std::localtime(&t);
-
-   qDebug() << "Current year: "     << 1900 + pTInfo->tm_year;
-   qDebug() << "Current tm_mon: "   << pTInfo->tm_mon;
-   qDebug() << "Current tm_mday: "  << pTInfo->tm_mday;
-   qDebug() << "Current tm_wday: "  << pTInfo->tm_wday;
-   qDebug() << "Current tm_yday: "  << pTInfo->tm_yday;
-   qDebug() << "Current tm_hour: "  << pTInfo->tm_hour;
-   qDebug() << "Current tm_min: "   << pTInfo->tm_min;
-   qDebug() << "Current tm_sec: "   << pTInfo->tm_sec;
-   qDebug() << "Current tm_isdst: " << pTInfo->tm_isdst;*/
 
     return app.exec();
 }

@@ -1,52 +1,68 @@
 #include "Dishes.h"
 
+#include "Database.h"
+
+#include <QDebug>
+
 std::vector<Dishes::Dish> Dishes::m_DishesList = {};
 
 Dishes* GlobalDishes = nullptr;
 
 Dishes::Dishes(QObject *parent) : QObject(parent)
 {
-    AddDish("Kotletas", 500, "Gaminamas iš mėsos, apvalios formos");
-    AddDish("Plovas", 450, "Gaminamas iš mėsos ir ryžių, be padažo");
-    AddDish("Meduolis", 300, "Cukrinis desertas");
-    AddDish("Sultys", 150, "Cido sultys iš Norfos");
-    AddDish("Vanduo", 10, "Dienai reikalingas vandens kiekis");
+   GlobalDatabase->Open();
+   QList<QVariantList> querryResult = GlobalDatabase->ExecuteSelectQuerry("Dishes", "Name, Description, Calories");
+   GlobalDatabase->Close();
+
+   for(QVariantList line : querryResult)
+   {
+      AddDish(line.at(0).toString(), line.at(1).toInt(), line.at(2).toString());
+   }
+
+   qDebug() << m_DishesList.size() << " dishes loaded";
+
+
+   /*AddDish("Kotletas", 500, "Gaminamas iš mėsos, apvalios formos");
+   AddDish("Plovas", 450, "Gaminamas iš mėsos ir ryžių, be padažo");
+   AddDish("Meduolis", 300, "Cukrinis desertas");
+   AddDish("Sultys", 150, "Cido sultys iš Norfos");
+   AddDish("Vanduo", 10, "Dienai reikalingas vandens kiekis");*/
 }
 
 std::vector<Dishes::Dish> Dishes::GetDishesList(){
-    return m_DishesList;
+   return m_DishesList;
 }
 
 void Dishes::AddDish(QString name, int calories, QString description)
 {
-    Dish newDish;
+   Dish newDish;
 
-    newDish.name = name;
-    newDish.calories = calories;
-    newDish.description = description;
+   newDish.name = name;
+   newDish.calories = calories;
+   newDish.description = description;
 
-    m_DishesList.push_back(newDish);
+   m_DishesList.push_back(newDish);
 }
 
 void Dishes::RemoveDish(int id)
 {
-     m_DishesList.erase(m_DishesList.begin() + id);
+   m_DishesList.erase(m_DishesList.begin() + id);
 }
 
 int Dishes::GetTotalCalories(){
-    int sum = 0;
+   int sum = 0;
 
-    for(Dish dish : m_DishesList)
-        sum += dish.calories;
+   for(Dish dish : m_DishesList)
+      sum += dish.calories;
 
-    return sum;
+   return sum;
 }
 
 
 QString Dishes::GetNameByIndex(int index){
-    return m_DishesList.at(index).name;
+   return m_DishesList.at(index).name;
 }
 
 int Dishes::GetCaloriesByIndex(int index){
-    return m_DishesList.at(index).calories;
+   return m_DishesList.at(index).calories;
 }

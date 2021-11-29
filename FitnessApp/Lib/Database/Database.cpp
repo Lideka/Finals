@@ -1,5 +1,7 @@
 #include "Database.h"
 
+Database* GlobalDatabase = nullptr;
+
 Database::Database(std::string DatabaseFilePath)
 {
    qDebug() << "Initializing database...";
@@ -26,20 +28,49 @@ void Database::Close()
    m_Database.close();
 }
 
-QList<QVariantList> Database::ExecuteSelectQuerry(std::string Table, std::string Tabs)
+
+bool Database::ExecuteCustomQuerry(std::string Querry, QList<QVariantList> *resultArray, int TabCount)
+{
+   QSqlQuery query(m_Database);
+   if(!query.exec(Querry.c_str())) //Exit, if an error occurs
+   {
+      qDebug() << "! Database::ExecuteCustomQuerry querry execution failed: " << query.lastError();
+
+      return false;
+   }
+
+   //If location to save result were provided, handle results
+   if(resultArray != nullptr)
+   {
+      //Collect the data received
+      while (query.next()) //Iterate through each line
+      {
+         QVariantList temp;
+
+         for(int i = 0; i < TabCount; i++)
+            temp.push_back(query.value(i));
+
+         resultArray->push_back(temp);
+      }
+   }
+
+   return true;
+}
+
+QList<QVariantList> Database::ExecuteSelectQuerry(std::string Table, std::string Tabs, std::string Where)
 {
    //Check the provided info
    if(Table.empty() || Tabs.empty())
    {
 #ifdef QT_DEBUG
-      qDebug() << "! ExecuteSelectQuerry empty variable passed.";
+      qDebug() << "! Database::ExecuteSelectQuerry empty variable passed.";
 #endif
 
       return {};
    }
 
    int TabCount = 1; //If string not empty, atleast one word is present
-   QList<QVariantList> retval;
+   QList<QVariantList> retval = {};
 
    for(size_t i = 0; i < Tabs.size(); i++)
       if(Tabs.at(i) == ' ')
@@ -47,26 +78,16 @@ QList<QVariantList> Database::ExecuteSelectQuerry(std::string Table, std::string
 
    std::string QuerryString = "SELECT " + Tabs + " FROM " + Table; //Formulate the querry and execute it
 
-   QSqlQuery query(m_Database);
-   if(!query.exec(QuerryString.c_str())) //Exit, if an error occurs
+   if(!Where.empty())
    {
-      qDebug() << "! ExecuteSelectQuerry querry execution failed: " << query.lastError();
-
-      return {};
+      QuerryString += " WHERE " + Where;
    }
 
-   //Collect the data received
-   while (query.next()) //Go to the second line
-   {
-      QVariantList temp;
+   ExecuteCustomQuerry(QuerryString, &retval, TabCount);
 
-      for(int i = 0; i < TabCount; i++)
-         temp.push_back(query.value(i));
-
-      retval.push_back(temp);
-   }
-
+   //If ExecuteCustomQuerry() fails, we'll still return an empty list, indicationg an error
    return retval;
+
 }
 
 bool Database::ExecuteInsertQuerry(std::string Table, std::string Tabs, std::string Values)
@@ -74,12 +95,13 @@ bool Database::ExecuteInsertQuerry(std::string Table, std::string Tabs, std::str
    //Check the provided info
    if(Table.empty() || Tabs.empty() || Values.empty())
    {
-      qDebug() << "! ExecuteInsertQuerry empty variable passed.";
+      qDebug() << "! Database::ExecuteInsertQuerry empty variable passed.";
 
       return {};
    }
 
    std::string QuerryString = "INSERT INTO " + Table + " (" + Tabs + ") VALUES (" + Values + ")";
+
    QSqlQuery query;
    if(!query.exec(QuerryString.c_str()))
    {
@@ -90,3 +112,4 @@ bool Database::ExecuteInsertQuerry(std::string Table, std::string Tabs, std::str
 
    return true;
 }
+
