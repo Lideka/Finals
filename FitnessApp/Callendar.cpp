@@ -26,9 +26,6 @@ Callendar::Callendar(bool isFirstLaunch, QObject *parent) : QObject(parent)
 }
 
 void Callendar::updateLists(){
-   m_YearList.clear();
-   m_MonthsList.clear();
-
    m_DaysInfo.clear();
 
    int daysInCurrentMonth = GetNumberOfDays(m_SelectedMonth, m_SelectedYear);

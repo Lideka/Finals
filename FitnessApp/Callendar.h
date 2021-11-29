@@ -22,28 +22,23 @@ signals:
 private:
 
 //Q_PROPERTY variables
-    QStringList m_YearList = {};
-    QStringList m_MonthsList = {};
-
-    QStringList GetDaysList();
 
     int m_SelectedYear = -1;
     int m_SelectedMonth = -1;
 
-    int m_CurrentYear = -1;
-    int m_CurrentMonth = -1;
+    QStringList GetDaysList();
 
 //Q_PROPERTY variables --end
 
+    int m_CurrentYear = -1;
+    int m_CurrentMonth = -1;
+
     struct DayInfo_t {
-       int Id;
        int Year;
        int Month;
        int Day;
     };
-
     std::vector<DayInfo_t> m_DaysInfo;
-
 
 //helpers
     int GetNumberOfDays(int month, int year);
