@@ -7,56 +7,56 @@ import Elements 1.0
 
 Window {
 
-    //Main window properties
+   //Main window properties
 
-    id: window
+   id: window
 
-    width: defaultWidth
-    height: defaultHeight
+   width: defaultWidth
+   height: defaultHeight
 
-    minimumWidth: defaultWidth
-    minimumHeight: defaultHeight
+   minimumWidth: defaultWidth
+   minimumHeight: defaultHeight
 
-    visible: true //Apparently not visible by default
+   visible: true //Apparently not visible by default
 
-    title: qsTr("Fiznio aktyvumo planavimo irankis")
+   title: qsTr("Fiznio aktyvumo planavimo irankis")
 
-    //Main window properties --end
+   //Main window properties --end
 
-    //Local qml properties
+   //Local qml properties
 
-    property int defaultWidth: 700
-    property int defaultHeight: 700
+   property int defaultWidth: 700
+   property int defaultHeight: 700
 
-    property int secondWindowWidth: window.width
-    property int secondWindowHeight: window.height - bottomBox.height
+   property int secondWindowWidth: window.width
+   property int secondWindowHeight: window.height - bottomBox.height
 
-    property string windowTitle: "Home"
+   property string windowTitle: "Home"
 
-    //ElementsView properties
-    //property bool isExercisesSelected: false
-    //property bool isDishesSelected: false
+   //ElementsView properties
+   //property bool isExercisesSelected: false
+   //property bool isDishesSelected: false
 
-    //Local qml properties --end
-
-
-    PopupWindow{
-        id: popup
-        width: 300
-        height: 300
-    }
+   //Local qml properties --end
 
 
-    Loader{
-        id: contentLoader
+   PopupWindow {
+      id: popup
+      width: 300
+      height: 300
+   }
 
-        x: 0
-        y: 0
 
-        source: "Home.qml"
-    }
+   Loader {
+      id: contentLoader
 
-    /*Text {
+      x: 0
+      y: 0
+
+      source: "Home.qml"
+   }
+
+   /*Text {
         id: name
         anchors.centerIn: parent
         text: qsTr("Sveiki atvykę į pagrindinį puslapį!")
@@ -66,86 +66,86 @@ Window {
         visible: contentLoader.source == "" ? true : false
     }*/
 
-    //Main window interface code
+   //Main window interface code
 
-    Rectangle{
-        id: topBar
+   Rectangle {
+      id: topBar
 
-        width: window.width
-        height: 100
+      width: window.width
+      height: 100
 
-        color: "lightgreen"
+      color: "lightgreen"
 
-        border.width: 2
+      border.width: 2
 
-        anchors.top: parent.top
+      anchors.top: parent.top
 
-        Text {
-            id: title
-            text: windowTitle
+      Text {
+         id: title
+         text: windowTitle
+
+         anchors.centerIn: parent
+
+         font.pointSize: 20
+      }
+   }
+
+
+
+   property variant buttons: [
+      { name: "Namai",        file: "Home.qml",          image: "Pictures/homeLogo.png" },
+      { name: "Pasnikas",     file: "Fasting.qml",       image: "Pictures/fastingLogo.png" },
+      { name: "Kalendorius",  file: "CallendarView.qml", image: "Pictures/callendarLogo.png" },
+      { name: "#4",           file: "ElementsView.qml",  image: "Pictures/dishesLogo.png" },
+      { name: "Nustatymai",   file: "Settings.qml",      image: "Pictures/settingsLogo.png" }
+   ];
+
+
+
+   Component.onCompleted: {
+      console.log("completed");
+
+      console.log("buttons length: " + buttons.length)
+   }
+
+   GridView {
+      id: bottomBox
+
+      width: window.width
+      height: 100
+
+      y: window.height - height //This is at the bottom (height of the window - this object height)
+
+      cellWidth: window.width / buttons.length; cellHeight: 100
+
+      interactive: false //?
+
+      model: buttons
+
+      delegate: Rectangle {
+         width: parent.width / buttons.length
+         height: parent.height
+
+         Image {
+            height: 80
+            width: 76.5
 
             anchors.centerIn: parent
 
-            font.pointSize: 20
-        }
-    }
+            source: buttons[index].image
+         }
 
+         MouseArea {
+            anchors.fill: parent
 
-
-    property variant buttons: [
-        { name: "Namai",        file: "Home.qml",          image: "Pictures/homeLogo.png" },
-        { name: "Pasnikas",     file: "Fasting.qml",       image: "Pictures/fastingLogo.png" },
-        { name: "Kalendorius",  file: "CallendarView.qml", image: "Pictures/callendarLogo.png" },
-        { name: "#4",           file: "ElementsView.qml",  image: "Pictures/dishesLogo.png" },
-        { name: "Nustatymai",   file: "Settings.qml",      image: "Pictures/settingsLogo.png" }
-    ];
-
-
-
-    Component.onCompleted: {
-        console.log("completed");
-
-        console.log("buttons length: " + buttons.length)
-    }
-
-    GridView {
-        id: bottomBox
-
-        width: window.width
-        height: 100
-
-        y: window.height - height //This is at the bottom (height of the window - this object height)
-
-        cellWidth: window.width / buttons.length; cellHeight: 100
-
-        interactive: false //?
-
-        model: buttons
-
-        delegate: Rectangle {
-            width: parent.width / buttons.length
-            height: parent.height
-
-            Image {
-                height: 80
-                width: 76.5
-
-                anchors.centerIn: parent
-
-                source: buttons[index].image
+            onClicked: {
+               contentLoader.source = buttons[index].file
+               windowTitle = buttons[index].name
             }
+         }
 
-            MouseArea{
-                anchors.fill: parent
-
-                onClicked: {
-                    contentLoader.source = buttons[index].file
-                    windowTitle = buttons[index].name
-                }
-            }
-
-            border.width: 1
-        }
-    }
+         border.width: 1
+      }
+   }
 
 }
