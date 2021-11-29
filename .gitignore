@@ -65,3 +65,9 @@ FitnessApp/AnApp.pro.user
 FitnessApp/AnApp.pro.user
 Builds/FitnessAppDebug/debug/moc_Fasting.cpp
 Builds/FitnessAppDebug/debug/Fasting.obj
+Builds/FitnessAppDebug/debug/moc_Home.obj
+Builds/FitnessAppDebug/debug/moc_Fasting.obj
+Builds/FitnessAppDebug/debug/Home.obj
+Builds/FitnessAppDebug/debug/Fasting.obj
+*.obj
+*.obj
