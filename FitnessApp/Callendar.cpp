@@ -19,6 +19,7 @@ Callendar::Callendar(bool isFirstLaunch, QObject *parent) : QObject(parent)
 
    m_CurrentYear = 1900 + pTInfo->tm_year;
    m_CurrentMonth = pTInfo->tm_mon + 1;
+   m_CurrentDay = pTInfo->tm_mday;
 
    //By default, we show current year and month on first open
    m_SelectedYear = m_CurrentYear;
@@ -34,6 +35,39 @@ void Callendar::updateLists(){
       m_DaysInfo.push_back({ m_SelectedYear, m_SelectedMonth, i });
 
    emit DaysListChanged();
+}
+
+QString Callendar::getSelectedMonthAndYear()
+{
+   QString MonthNames[] = {
+     "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+   };
+
+   return MonthNames[m_SelectedMonth - 1] + ", " + QString::number(m_SelectedYear);
+}
+
+QStringList Callendar::GetWeekDays()
+{
+   return {
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+      "Sun"
+   };
 }
 
 QStringList Callendar::GetDaysList()
