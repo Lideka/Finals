@@ -1,14 +1,24 @@
 #include "Exercises.h"
 
+#include "Database.h"
+
 std::vector<Exercises::Exercise> Exercises::m_ExercisesList = {};
 
 Exercises* GlobalExercises = nullptr;
 
 Exercises::Exercises(QObject *parent) : QObject(parent)
 {
-    AddExercise("Atsilenkimai", 200, "Reikia daryti atsilenkimus sulenkus keliusReikia daryti atsilenkimus sulenkus keliusReikia daryti atsilenkimus sulenkus keliusReikia daryti atsilenkimus sulenkus keliusReikia daryti atsilenkimus sulenkus keliusReikia daryti atsilenkimus sulenkus keliusReikia daryti atsilenkimus sulenkus keliusReikia daryti atsilenkimus sulenkus keliusReikia daryti atsilenkimus sulenkus keliusReikia daryti atsilenkimus sulenkus keliusReikia daryti atsilenkimus sulenkus keliusReikia daryti atsilenkimus sulenkus keliusReikia daryti atsilenkimus sulenkus keliusReikia daryti atsilenkimus sulenkus keliusReikia daryti atsilenkimus sulenkus keliusReikia daryti atsilenkimus sulenkus kelius");
-    AddExercise("Pritūpimai", 300, "Pilnai pritūpti sulenkiant kelius");
-    AddExercise("Bėgimas", 600, "2 kilometrų bėgimas vidutiniu tempu");
+   GlobalDatabase->Open();
+   QList<QVariantList> querryResult = GlobalDatabase->ExecuteSelectQuerry("Exercises", "Name, Description, Calories");
+   GlobalDatabase->Close();
+
+   for(QVariantList line : querryResult)
+   {
+      AddExercise(line.at(0).toString(), line.at(1).toInt(), line.at(2).toString());
+   }
+
+   qDebug() << GetExercisesList().size() << " exercises loaded";
+
 }
 
 std::vector<Exercises::Exercise> Exercises::GetExercisesList(){
