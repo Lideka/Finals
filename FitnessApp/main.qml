@@ -3,7 +3,7 @@ import QtQuick.Window 2.14
 import QtQuick.Controls 2.5
 
 import Elements 1.0
-
+import Callendar 1.0
 
 Window {
 
@@ -53,18 +53,8 @@ Window {
       x: 0
       y: 0
 
-      source: "Home.qml"
+      source: "CallendarView.qml"//"Home.qml"
    }
-
-   /*Text {
-        id: name
-        anchors.centerIn: parent
-        text: qsTr("Sveiki atvykę į pagrindinį puslapį!")
-
-        font.pixelSize: 30
-
-        visible: contentLoader.source == "" ? true : false
-    }*/
 
    //Main window interface code
 
@@ -72,13 +62,14 @@ Window {
       id: topBar
 
       width: window.width
-      height: 100
+      height: 50
 
       color: "lightgreen"
 
       border.width: 2
 
       anchors.top: parent.top
+      visible: true
 
       Text {
          id: title
@@ -93,20 +84,12 @@ Window {
 
 
    property variant buttons: [
-      { name: "Namai",        file: "Home.qml",          image: "Pictures/homeLogo.png" },
-      { name: "Pasnikas",     file: "Fasting.qml",       image: "Pictures/fastingLogo.png" },
-      { name: "Kalendorius",  file: "CallendarView.qml", image: "Pictures/callendarLogo.png" },
-      { name: "#4",           file: "ElementsView.qml",  image: "Pictures/dishesLogo.png" },
-      { name: "Nustatymai",   file: "Settings.qml",      image: "Pictures/settingsLogo.png" }
+      { name: "Namai",                              file: "Home.qml",          image: "Pictures/homeLogo.png" },
+      { name: "Pasnikas",                           file: "Fasting.qml",       image: "Pictures/fastingLogo.png" },
+      { name: Callendar.getSelectedMonthAndYear(),  file: "CallendarView.qml", image: "Pictures/callendarLogo.png" },
+      { name: "#4",                                 file: "ElementsView.qml",  image: "Pictures/dishesLogo.png" },
+      { name: "Nustatymai",                         file: "Settings.qml",      image: "Pictures/settingsLogo.png" }
    ];
-
-
-
-   Component.onCompleted: {
-      console.log("completed");
-
-      console.log("buttons length: " + buttons.length)
-   }
 
    GridView {
       id: bottomBox
