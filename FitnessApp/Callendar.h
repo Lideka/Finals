@@ -53,6 +53,11 @@ private:
    int m_CurrentMonth = -1;
    int m_CurrentDay = -1;
 
+   int m_FirstLaunchYear = -1;
+   int m_FirstLaunchMonth = -1;
+   int m_FirstLaunchDay = -1;
+
+
    QString m_SelectedMYString;
 
    struct DayInfo_t {

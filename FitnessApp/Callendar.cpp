@@ -21,6 +21,32 @@ Callendar::Callendar(bool isFirstLaunch, QObject *parent) : QObject(parent)
    m_CurrentMonth = pTInfo->tm_mon + 1;
    m_CurrentDay = pTInfo->tm_mday;
 
+   //Handle first launch variables
+   if(isFirstLaunch)
+   {
+      GlobalDatabase->Open();
+      GlobalDatabase->ExecuteCustomQuerry("UPDATE User SET FirstLaunchYear = " + std::to_string(m_CurrentYear));
+      GlobalDatabase->ExecuteCustomQuerry("UPDATE User SET FirstLaunchMonth = " + std::to_string(m_CurrentMonth));
+      GlobalDatabase->ExecuteCustomQuerry("UPDATE User SET FirstLaunchDay = " + std::to_string(m_CurrentDay));
+      GlobalDatabase->Close();
+
+      m_FirstLaunchYear = m_CurrentYear;
+      m_FirstLaunchMonth = m_CurrentMonth;
+      m_FirstLaunchDay = m_CurrentDay;
+   }
+   else
+   {
+      GlobalDatabase->Open();
+      QList<QVariantList> res = GlobalDatabase->ExecuteSelectQuerry("User", "FirstLaunchYear, FirstLaunchMonth, FirstLaunchDay");
+      GlobalDatabase->Close();
+
+      assert(res.at(0).size() == 2);
+
+      m_FirstLaunchYear = res.at(0).at(0).toInt();
+      m_FirstLaunchMonth = res.at(0).at(1).toInt();
+      m_FirstLaunchDay = res.at(0).at(2).toInt();
+   }
+
    //By default, we show current year and month on first open
    m_SelectedYear = m_CurrentYear;
    m_SelectedMonth = m_CurrentMonth;
@@ -53,10 +79,13 @@ void Callendar::arrowClicked(bool isRight)
       }
       else
          m_SelectedMonth++;
-
    }
    else
    {
+      //Don't let the user go back further, than first launch month
+      if(m_SelectedMonth == m_FirstLaunchMonth && m_SelectedYear == m_FirstLaunchYear)
+         return;
+
       if(m_SelectedMonth == 1)
       {
          m_SelectedYear--;

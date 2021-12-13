@@ -67,8 +67,11 @@ Item{
                anchors.centerIn:  parent
                font.pixelSize: 25
 
-               //Highlight the current day
-               color:  index + 1 === Callendar.currentDay && Callendar.currentYear === Callendar.selectedYear && Callendar.currentMonth === Callendar.selectedMonth ? "red" : "black"
+               //Highlight the current day & grey out unavailable ones
+               color:Callendar.currentYear === Callendar.selectedYear && Callendar.currentMonth === Callendar.selectedMonth ?
+                        index + 1 === Callendar.currentDay ? "red" :
+                           index + 1 < Callendar.currentDay ? "grey" : "black"
+               :      "black"
             }
 
             border.width: 1
