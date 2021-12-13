@@ -63,12 +63,12 @@ Item{
 
             Text {
                id: date
-               text: modelData//Callendar.daysList[index]
+               text: modelData
                anchors.centerIn:  parent
                font.pixelSize: 25
 
                //Highlight the current day
-               color: index + 1 === Callendar.currentDay ? "red" : "black"
+               color:  index + 1 === Callendar.currentDay && Callendar.currentYear === Callendar.selectedYear && Callendar.currentMonth === Callendar.selectedMonth ? "red" : "black"
             }
 
             border.width: 1

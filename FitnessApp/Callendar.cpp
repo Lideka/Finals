@@ -24,6 +24,8 @@ Callendar::Callendar(bool isFirstLaunch, QObject *parent) : QObject(parent)
    //By default, we show current year and month on first open
    m_SelectedYear = m_CurrentYear;
    m_SelectedMonth = m_CurrentMonth;
+
+   UpdateSelectedMYString();
 }
 
 void Callendar::updateLists(){
@@ -37,24 +39,39 @@ void Callendar::updateLists(){
    emit DaysListChanged();
 }
 
-QString Callendar::getSelectedMonthAndYear()
+void Callendar::arrowClicked(bool isRight)
 {
-   QString MonthNames[] = {
-     "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-   };
+   //Check if left or right arrow was clicked
+   if(isRight)
+   {
+      if(m_SelectedMonth == 12)
+      {
+         m_SelectedYear++;
+         m_SelectedMonth = 1;
 
-   return MonthNames[m_SelectedMonth - 1] + ", " + QString::number(m_SelectedYear);
+         emit SelectedYearChanged();
+      }
+      else
+         m_SelectedMonth++;
+
+   }
+   else
+   {
+      if(m_SelectedMonth == 1)
+      {
+         m_SelectedYear--;
+         m_SelectedMonth = 12;
+
+         emit SelectedYearChanged();
+      }
+      else
+         m_SelectedMonth--;
+   }
+
+   emit SelectedMonthChanged();
+
+   UpdateSelectedMYString();
+   updateLists();
 }
 
 QStringList Callendar::GetWeekDays()
@@ -81,6 +98,27 @@ QStringList Callendar::GetDaysList()
    }
 
    return retval;
+}
+
+void Callendar::UpdateSelectedMYString()
+{
+   QString MonthNames[] = {
+     "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+   };
+
+   m_SelectedMYString = MonthNames[m_SelectedMonth - 1] + ", " + QString::number(m_SelectedYear);
+   emit SelectedMYChanged();
 }
 
 //Helpers

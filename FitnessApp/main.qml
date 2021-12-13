@@ -92,12 +92,15 @@ Window {
 
          source: "Pictures/ArrowRight.png"
 
-         height: parent.height * 0.7 //40//30
-         width: height * 0.64//25.6//19.2
+         height: parent.height * 0.7
+         width: height * 0.64
 
          MouseArea {
             anchors.fill: parent
-            onClicked: console.log("right clicked")
+            onClicked: {
+               Callendar.arrowClicked(true)
+               windowTitle = Callendar.selectedMYString //Need to update every time, since qml is wonderful
+            }
          }
       }
 
@@ -113,12 +116,15 @@ Window {
 
          source: "Pictures/ArrowLeft.png"
 
-         height: parent.height * 0.7 //40//30
-         width: height * 0.64//25.6//19.2
+         height: parent.height * 0.7
+         width: height * 0.64
 
          MouseArea {
             anchors.fill: parent
-            onClicked: console.log("left clicked")
+            onClicked:  {
+               Callendar.arrowClicked(false)
+               windowTitle = Callendar.selectedMYString //Need to update every time, since qml is wonderful
+            }
          }
       }
    }
@@ -128,7 +134,7 @@ Window {
    property variant buttons: [
       { name: "Namai",                              file: "Home.qml",          image: "Pictures/homeLogo.png" },
       { name: "Pasnikas",                           file: "Fasting.qml",       image: "Pictures/fastingLogo.png" },
-      { name: Callendar.getSelectedMonthAndYear(),  file: "CallendarView.qml", image: "Pictures/callendarLogo.png" },
+      { name: Callendar.selectedMYString,           file: "CallendarView.qml", image: "Pictures/callendarLogo.png" },
       { name: "#4",                                 file: "ElementsView.qml",  image: "Pictures/dishesLogo.png" },
       { name: "Nustatymai",                         file: "Settings.qml",      image: "Pictures/settingsLogo.png" }
    ];

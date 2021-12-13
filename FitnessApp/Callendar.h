@@ -10,18 +10,29 @@ public:
    explicit Callendar(bool isFirstLaunch, QObject *parent = nullptr);
 
    //Doesn't work with a notifier, but is it needed though?
-   Q_PROPERTY(int selectedYear MEMBER m_SelectedYear);
-   Q_PROPERTY(int selectedMonth MEMBER m_SelectedMonth);
+   Q_PROPERTY(int selectedYear MEMBER m_SelectedYear NOTIFY SelectedYearChanged);
+   Q_PROPERTY(int selectedMonth MEMBER m_SelectedMonth NOTIFY SelectedMonthChanged);
+   Q_PROPERTY(int currentYear MEMBER m_CurrentYear NOTIFY CurrentYearChanged);
+   Q_PROPERTY(int currentMonth MEMBER m_CurrentMonth NOTIFY CurrentMonthChanged);
    Q_PROPERTY(int currentDay MEMBER m_CurrentDay NOTIFY CurrentDayChanged);
+
+   Q_PROPERTY(QString selectedMYString MEMBER m_SelectedMYString NOTIFY SelectedMYChanged);
 
    Q_PROPERTY(QStringList weekDays READ GetWeekDays NOTIFY WeekDaysChanged);
    Q_PROPERTY(QStringList daysList READ GetDaysList NOTIFY DaysListChanged);
 
-   Q_INVOKABLE QString getSelectedMonthAndYear();
    Q_INVOKABLE void updateLists();
 
+   Q_INVOKABLE void arrowClicked(bool isRight);
+
 signals:
+   void SelectedYearChanged();
+   void SelectedMonthChanged();
+   void CurrentYearChanged();
+   void CurrentMonthChanged();
    void CurrentDayChanged();
+
+   void SelectedMYChanged();
 
    void WeekDaysChanged();
    void DaysListChanged();
@@ -42,6 +53,8 @@ private:
    int m_CurrentMonth = -1;
    int m_CurrentDay = -1;
 
+   QString m_SelectedMYString;
+
    struct DayInfo_t {
       int Year;
       int Month;
@@ -49,6 +62,7 @@ private:
    };
    std::vector<DayInfo_t> m_DaysInfo;
 
+   void UpdateSelectedMYString();
    //helpers
    int GetNumberOfDays(int month, int year);
 };
