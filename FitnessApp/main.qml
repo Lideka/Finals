@@ -79,6 +79,48 @@ Window {
 
          font.pointSize: 20
       }
+
+      //0.64 ratio, vertically bigger
+      Image {
+         id: arrowRight
+
+         anchors.rightMargin: 10
+         anchors.right: parent.right
+         anchors.verticalCenter: parent.verticalCenter
+
+         visible: contentLoader.source == "qrc:/CallendarView.qml" ? true : false
+
+         source: "Pictures/ArrowRight.png"
+
+         height: parent.height * 0.7 //40//30
+         width: height * 0.64//25.6//19.2
+
+         MouseArea {
+            anchors.fill: parent
+            onClicked: console.log("right clicked")
+         }
+      }
+
+      //0.64 ratio, vertically bigger
+      Image {
+         id: arrowLeft
+
+         anchors.right: arrowRight.left
+         anchors.rightMargin: 20
+         anchors.verticalCenter: parent.verticalCenter
+
+         visible: contentLoader.source == "qrc:/CallendarView.qml" ? true : false
+
+         source: "Pictures/ArrowLeft.png"
+
+         height: parent.height * 0.7 //40//30
+         width: height * 0.64//25.6//19.2
+
+         MouseArea {
+            anchors.fill: parent
+            onClicked: console.log("left clicked")
+         }
+      }
    }
 
 

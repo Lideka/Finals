@@ -21,6 +21,7 @@
         <file>Settings.qml</file>
         <file>Pictures/emptyWaterDropIcon.png</file>
         <file>Pictures/fullWaterDropIcon.png</file>
-        <file>Pictures/Arrow.png</file>
+        <file>Pictures/ArrowLeft.png</file>
+        <file>Pictures/ArrowRight.png</file>
     </qresource>
 </RCC>

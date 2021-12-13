@@ -11,21 +11,6 @@ Item{
    width: secondWindowWidth
    height: secondWindowHeight
 
-   Rectangle {
-      width: 50
-      height: 50
-
-      anchors.right: parent.right
-      anchors.top: parent.top
-
-      anchors.topMargin: 5
-      anchors.rightMargin: 5
-
-      border.width: 1
-      border.color: "blue"
-
-      color: "transparent"
-   }
 
    GridView {
       id: weekDays
