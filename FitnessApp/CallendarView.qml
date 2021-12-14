@@ -61,17 +61,21 @@ Item{
             width: 100
             height: 100
 
+            color: date.text === "-1" ? "grey" : "transparent"
+
             Text {
                id: date
                text: modelData
                anchors.centerIn:  parent
                font.pixelSize: 25
 
+               visible: text !== "-1"
+
                //Highlight the current day & grey out unavailable ones
                color:Callendar.currentYear === Callendar.selectedYear && Callendar.currentMonth === Callendar.selectedMonth ?
                         index + 1 === Callendar.currentDay ? "red" :
                            index + 1 < Callendar.currentDay ? "grey" : "black"
-               :      "black"
+                     : "black"
             }
 
             border.width: 1

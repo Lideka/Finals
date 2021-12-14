@@ -40,7 +40,7 @@ Callendar::Callendar(bool isFirstLaunch, QObject *parent) : QObject(parent)
       QList<QVariantList> res = GlobalDatabase->ExecuteSelectQuerry("User", "FirstLaunchYear, FirstLaunchMonth, FirstLaunchDay");
       GlobalDatabase->Close();
 
-      assert(res.at(0).size() == 2);
+      assert(res.at(0).size() == 3);
 
       m_FirstLaunchYear = res.at(0).at(0).toInt();
       m_FirstLaunchMonth = res.at(0).at(1).toInt();
@@ -56,6 +56,16 @@ Callendar::Callendar(bool isFirstLaunch, QObject *parent) : QObject(parent)
 
 void Callendar::updateLists(){
    m_DaysInfo.clear();
+
+   //Find which day of the week the first day of the month is
+   std::tm time_in = { 0, 0, 0, 1, m_SelectedMonth - 1, m_SelectedYear - 1900 };
+   std::time_t time_temp = std::mktime(&time_in);
+   const std::tm *time_out = std::localtime(&time_temp);
+
+   //Add empty days, to push the 1st day of the month to the correct week day
+   for(int i = 0; i < time_out->tm_wday - 1; i++)
+      m_DaysInfo.push_back({ m_SelectedYear, m_SelectedMonth, -1 });
+
 
    int daysInCurrentMonth = GetNumberOfDays(m_SelectedMonth, m_SelectedYear);
 
