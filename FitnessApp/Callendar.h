@@ -9,12 +9,17 @@ class Callendar : public QObject
 public:
    explicit Callendar(bool isFirstLaunch, QObject *parent = nullptr);
 
-   //Doesn't work with a notifier, but is it needed though?
    Q_PROPERTY(int selectedYear MEMBER m_SelectedYear NOTIFY SelectedYearChanged);
    Q_PROPERTY(int selectedMonth MEMBER m_SelectedMonth NOTIFY SelectedMonthChanged);
+
    Q_PROPERTY(int currentYear MEMBER m_CurrentYear NOTIFY CurrentYearChanged);
    Q_PROPERTY(int currentMonth MEMBER m_CurrentMonth NOTIFY CurrentMonthChanged);
    Q_PROPERTY(int currentDay MEMBER m_CurrentDay NOTIFY CurrentDayChanged);
+
+   Q_PROPERTY(int firstLaunchYear MEMBER m_FirstLaunchYear NOTIFY FirstLaunchYearChanged);
+   Q_PROPERTY(int firstLaunchMonth MEMBER m_FirstLaunchMonth NOTIFY FirstLaunchMonthChanged);
+   Q_PROPERTY(int firstLaunchDay MEMBER m_FirstLaunchDay NOTIFY FirstLaunchDayChanged);
+
 
    Q_PROPERTY(QString selectedMYString MEMBER m_SelectedMYString NOTIFY SelectedMYChanged);
 
@@ -31,6 +36,10 @@ signals:
    void CurrentYearChanged();
    void CurrentMonthChanged();
    void CurrentDayChanged();
+
+   void FirstLaunchYearChanged();
+   void FirstLaunchMonthChanged();
+   void FirstLaunchDayChanged();
 
    void SelectedMYChanged();
 

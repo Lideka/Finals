@@ -72,10 +72,9 @@ Item{
                visible: text !== "-1"
 
                //Highlight the current day & grey out unavailable ones
-               color:Callendar.currentYear === Callendar.selectedYear && Callendar.currentMonth === Callendar.selectedMonth ?
-                        index + 1 === Callendar.currentDay ? "red" :
-                           index + 1 < Callendar.currentDay ? "grey" : "black"
-                     : "black"
+               color: Callendar.currentYear === Callendar.selectedYear && Callendar.currentMonth === Callendar.selectedMonth && parseInt(text) === Callendar.currentDay ? "red" :
+                         Callendar.firstLaunchYear === Callendar.selectedYear && Callendar.firstLaunchMonth === Callendar.selectedMonth && parseInt(text) < Callendar.firstLaunchDay ? "grey" :
+                     "black"
             }
 
             border.width: 1
