@@ -62,8 +62,14 @@ void Callendar::updateLists(){
    std::time_t time_temp = std::mktime(&time_in);
    const std::tm *time_out = std::localtime(&time_temp);
 
+   int weekDay = time_out->tm_wday;
+
+   //Some genius made sunday to be 1st day of the week.. Set specific value for it. All of the other days works fine
+   if(weekDay == 0)
+      weekDay = 7;
+
    //Add empty days, to push the 1st day of the month to the correct week day
-   for(int i = 0; i < time_out->tm_wday - 1; i++)
+   for(int i = 0; i < weekDay - 1; i++)
       m_DaysInfo.push_back({ m_SelectedYear, m_SelectedMonth, -1 });
 
 
