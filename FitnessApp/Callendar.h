@@ -11,6 +11,7 @@ public:
 
    Q_PROPERTY(int selectedYear MEMBER m_SelectedYear NOTIFY SelectedYearChanged);
    Q_PROPERTY(int selectedMonth MEMBER m_SelectedMonth NOTIFY SelectedMonthChanged);
+   Q_PROPERTY(int selectedDay MEMBER m_SelectedDay NOTIFY SelectedDayChanged);
 
    Q_PROPERTY(int currentYear MEMBER m_CurrentYear NOTIFY CurrentYearChanged);
    Q_PROPERTY(int currentMonth MEMBER m_CurrentMonth NOTIFY CurrentMonthChanged);
@@ -33,6 +34,8 @@ public:
 signals:
    void SelectedYearChanged();
    void SelectedMonthChanged();
+   void SelectedDayChanged();
+
    void CurrentYearChanged();
    void CurrentMonthChanged();
    void CurrentDayChanged();
@@ -52,6 +55,7 @@ private:
 
    int m_SelectedYear = -1;
    int m_SelectedMonth = -1;
+   int m_SelectedDay = -1;
 
    QStringList GetWeekDays();
    QStringList GetDaysList();

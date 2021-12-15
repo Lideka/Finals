@@ -10,30 +10,16 @@ Dishes* GlobalDishes = nullptr;
 
 Dishes::Dishes(QObject *parent) : QObject(parent)
 {
-   GlobalDatabase->Open();
-   QList<QVariantList> querryResult = GlobalDatabase->ExecuteSelectQuerry("Dishes", "Name, Description, Calories");
-   GlobalDatabase->Close();
-
-   for(QVariantList line : querryResult)
-   {
-      AddDish(line.at(0).toString(), line.at(1).toInt(), line.at(2).toString());
-   }
-
-   qDebug() << m_DishesList.size() << " dishes loaded";
-
-
-   /*AddDish("Kotletas", 500, "Gaminamas iš mėsos, apvalios formos");
-   AddDish("Plovas", 450, "Gaminamas iš mėsos ir ryžių, be padažo");
-   AddDish("Meduolis", 300, "Cukrinis desertas");
-   AddDish("Sultys", 150, "Cido sultys iš Norfos");
-   AddDish("Vanduo", 10, "Dienai reikalingas vandens kiekis");*/
 }
 
-std::vector<Dishes::Dish> Dishes::GetDishesList(){
+std::vector<Dishes::Dish> Dishes::GetDishesList()
+{
+   UpdateDishesList();
+
    return m_DishesList;
 }
 
-void Dishes::AddDish(QString name, int calories, QString description)
+void Dishes::AddDish(QString name, int calories, QString description) //Only used in Elements.cpp
 {
    Dish newDish;
 
@@ -49,20 +35,23 @@ void Dishes::RemoveDish(int id)
    m_DishesList.erase(m_DishesList.begin() + id);
 }
 
-int Dishes::GetTotalCalories(){
+int Dishes::GetTotalCalories() {
    int sum = 0;
 
-   for(Dish dish : m_DishesList)
+   for(const Dish &dish : m_DishesList)
       sum += dish.calories;
 
    return sum;
 }
 
+void Dishes::UpdateDishesList()
+{
+   GlobalDatabase->Open();
+   QList<QVariantList> querryResult = GlobalDatabase->ExecuteSelectQuerry("Dishes", "Name, Description, Calories");
+   GlobalDatabase->Close();
 
-QString Dishes::GetNameByIndex(int index){
-   return m_DishesList.at(index).name;
-}
+   for(const QVariantList &line : qAsConst(querryResult))
+      AddDish(line.at(0).toString(), line.at(1).toInt(), line.at(2).toString());
 
-int Dishes::GetCaloriesByIndex(int index){
-   return m_DishesList.at(index).calories;
+   qDebug() << m_DishesList.size() << " dishes updated";
 }

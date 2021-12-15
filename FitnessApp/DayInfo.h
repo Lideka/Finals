@@ -5,57 +5,63 @@
 
 class DayInfo : public QObject
 {
-    Q_OBJECT
+   Q_OBJECT
 public:
-    explicit DayInfo(QObject *parent = nullptr);
+   explicit DayInfo(QObject *parent = nullptr);
 
-    Q_PROPERTY(QString year MEMBER m_Year NOTIFY YearChanged);
-    Q_PROPERTY(QString month MEMBER m_Month NOTIFY MonthChanged);
-    Q_PROPERTY(QString calories MEMBER m_Calories NOTIFY CaloriesChanged);
+   Q_PROPERTY(QStringList modelData READ GetModelData NOTIFY ModelDataChanged);
 
-    Q_PROPERTY(QStringList exercisesList MEMBER m_ExercisesList NOTIFY ExercisesListChanged);
-    Q_PROPERTY(QStringList dishesList MEMBER m_DishesList NOTIFY DishesListChanged);
+   Q_PROPERTY(bool isExercisesSelected READ GetIsExercisesSelected WRITE SetIsExercisesSelected NOTIFY IsExercisesSelectedChanged);
 
-    Q_INVOKABLE void updateValues();
+   Q_INVOKABLE void setCurrentDate(int Year, int Month, int Day);
+   Q_INVOKABLE void updateValues();
 
-    Q_INVOKABLE int getElementId(int index, bool isExercises);
+   Q_INVOKABLE void addElement(int index);
+   Q_INVOKABLE void removeElement(int index);
 
-    //DayAddRemove
-    Q_PROPERTY(bool isAddSelected MEMBER m_isAddSelected NOTIFY IsAddSelectedChanged);
-    Q_PROPERTY(bool isExerciseSelected MEMBER m_isExerciseSelected NOTIFY IsExerciseSelectedChanged);
+   //Popup properties
+   Q_PROPERTY(QStringList popupModelData READ GetPopupModelData NOTIFY PopupModelDataChanged);
 
-    Q_INVOKABLE void addElement(int index);
-    Q_INVOKABLE void removeElement(int index);
+   Q_INVOKABLE void addToAdditionList(QString name);
 
 signals:
-    void YearChanged();
-    void MonthChanged();
-    void DayChanged();
-    void CaloriesChanged();
+   void ModelDataChanged();
 
-    void ExercisesListChanged();
-    void DishesListChanged();
+   void IsExercisesSelectedChanged();
 
-    void IsAddSelectedChanged();
-    void IsExerciseSelectedChanged();
+   void PopupModelDataChanged();
 
 private:
-    QString m_Year;
-    QString m_Month;
-    QString m_Day;
-    QString m_Calories;
 
-    QStringList m_ExercisesList;
-    QStringList m_DishesList;
+   struct Element {
+      QString Name;
+      QString Description;
+      int Calories;
+   };
 
-    std::vector<int> m_exercisesIndexes;
-    std::vector<int> m_dishesIndexes;
+   //Q_PROPERTY variables and methods
 
-    bool m_isAddSelected;
-    bool m_isExerciseSelected;
+   QStringList m_ModelData;
+   QStringList GetModelData();
+
+   bool m_IsExercisesSelected = true;
+   bool GetIsExercisesSelected();
+   void SetIsExercisesSelected(bool value);
+
+   QStringList m_PopupModelData;
+   QStringList GetPopupModelData();
+
+   //Q_PROPERTY variables and methods --end
+
+   int m_SelectedYear;
+   int m_SelectedMonth;
+   int m_SelectedDay;
+
+   std::vector<Element> m_ExercisesList;
+   std::vector<Element> m_DishesList;
 
 
-
+   QStringList m_ElementsAdditionList;
 };
 
 #endif // DAYINFO_H

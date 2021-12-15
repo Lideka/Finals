@@ -10,11 +10,9 @@ class Dishes : public QObject
 public:
    explicit Dishes(QObject *parent = nullptr);
 
-   struct Dish{
-      int Id;
+   struct Dish {
       QString name;
       int calories;
-
       QString description;
    };
 
@@ -25,10 +23,9 @@ public:
 
    int GetTotalCalories();
 
-   QString GetNameByIndex(int index);
-   int GetCaloriesByIndex(int index);
-
 private:
+
+   void UpdateDishesList();
 
    static std::vector<Dish> m_DishesList;
 

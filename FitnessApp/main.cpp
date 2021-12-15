@@ -20,9 +20,9 @@ int main(int argc, char *argv[])
    QQmlApplicationEngine engine;
    const QUrl url(QStringLiteral("qrc:/main.qml"));
    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
+                    &app, [url](QObject *obj, const QUrl &objUrl) {
+      if (!obj && url == objUrl)
+         QCoreApplication::exit(-1);
    }, Qt::QueuedConnection);
 
 
@@ -40,7 +40,6 @@ int main(int argc, char *argv[])
    //Use this where needed
    bool isFirstLaunch = Name.empty();
    qDebug() << "Is first launch: " << isFirstLaunch;
-
 
 
    //Create global qml controllers
@@ -67,5 +66,5 @@ int main(int argc, char *argv[])
 
    engine.load(url);
 
-    return app.exec();
+   return app.exec();
 }

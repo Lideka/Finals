@@ -7,7 +7,6 @@
 
 Elements::Elements(QObject *parent) : QObject(parent)
 {
-    updateLists();
 }
 
 //Elements
@@ -18,7 +17,7 @@ void Elements::updateLists()
 
     if(!GlobalExercises->GetExercisesList().empty())
         for(size_t i = 0; i < GlobalExercises->GetExercisesList().size(); i++)
-            exercisesNames.push_back(GlobalExercises->GetExercisesList().at(i).name);
+            exercisesNames.push_back(GlobalExercises->GetExercisesList().at(i).Name);
 
     m_ExercisesNamesList = exercisesNames;
     emit ExercisesNamesListChanged();
@@ -41,10 +40,10 @@ void Elements::initializeElementsInfo()
         m_ElementName = m_ExercisesNamesList.at(m_SelectedElement);
         emit ElementNameChanged();
 
-        m_ElementCalories = std::to_string(GlobalExercises->GetExercisesList().at(m_SelectedElement).calories).c_str();
+        m_ElementCalories = std::to_string(GlobalExercises->GetExercisesList().at(m_SelectedElement).Calories).c_str();
         emit ElementCaloriesChanged();
 
-        m_ElementDescription = GlobalExercises->GetExercisesList().at(m_SelectedElement).description;
+        m_ElementDescription = GlobalExercises->GetExercisesList().at(m_SelectedElement).Description;
         emit ElementDescriptionChanged();
     }
     else if(m_IsDishesSelected){
@@ -67,7 +66,7 @@ void Elements::addElement(QString name, QString calories, QString description){
 
         if(m_IsExercisesSelected){
             for(size_t i = 0; i < GlobalExercises->GetExercisesList().size(); i++){
-                if(GlobalExercises->GetExercisesList().at(i).name == name){
+                if(GlobalExercises->GetExercisesList().at(i).Name == name){
                     qDebug() << "Elements::addElement this exercise name already exists";
                     return;
                 }
@@ -107,7 +106,7 @@ void Elements::removeElement(QString name){
 
     if(m_IsExercisesSelected){
         for(size_t i = 0; i < GlobalExercises->GetExercisesList().size(); i++){
-            if(GlobalExercises->GetExercisesList().at(i).name == name){
+            if(GlobalExercises->GetExercisesList().at(i).Name == name){
                GlobalExercises->RemoveExercise(i);
                qDebug() << "Pratimas sėkmingai ištrintas";
                return;
@@ -130,4 +129,3 @@ void Elements::removeElement(QString name){
 
     qDebug() << "Elements::removeElement Įvestas pavadinimas nebuvo surastas";
 }
-

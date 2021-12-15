@@ -4,60 +4,85 @@
 #include "Exercises.h"
 #include "Dishes.h"
 
+#include "Database.h"
+
 DayInfo::DayInfo(QObject *parent) : QObject(parent)
 {
 
 }
 
-void DayInfo::updateValues()
+void DayInfo::addToAdditionList(QString name)
 {
-   //Reset the values
-   m_isAddSelected = false;
-   m_isExerciseSelected = false;
-   emit IsAddSelectedChanged();
-   emit IsExerciseSelectedChanged();
-
-   int exerciseCalories = 0;
-   int dishCalories = 0;
-
-   //Should be replaced with ones from database
-   //GlobalCallendar->GetDayInfo(m_Year, m_Month, m_Day, m_exercisesIndexes, m_dishesIndexes);
-
-   //Year and date get's updated immediately
-   emit YearChanged();
-   emit MonthChanged();
-   emit DayChanged();
-
-   m_ExercisesList.clear();
-   m_DishesList.clear();
-
-   if(!m_exercisesIndexes.empty()){
-      for(int i : m_exercisesIndexes){
-         m_ExercisesList.push_back(GlobalExercises->GetNameByIndex(i));
-         exerciseCalories += GlobalExercises->GetCaloriesByIndex(i);
-      }
-   }
-   emit ExercisesListChanged();
-
-   if(!m_dishesIndexes.empty()){
-      for(int i : m_dishesIndexes){
-         m_DishesList.push_back(GlobalDishes->GetNameByIndex(i));
-         dishCalories += GlobalDishes->GetCaloriesByIndex(i);
-      }
-   }
-   emit DishesListChanged();
-
-
-   m_Calories = std::to_string(dishCalories - exerciseCalories).c_str();
-   emit CaloriesChanged();
+   m_ElementsAdditionList.push_back(name);
 }
 
-int DayInfo::getElementId(int index, bool isExercises){
-   if(isExercises){
-      return m_exercisesIndexes.at(index);
-   }
-   else{
-      return m_dishesIndexes.at(index);
+void DayInfo::setCurrentDate(int Year, int Month, int Day)
+{
+   m_SelectedYear = Year;
+   m_SelectedMonth = Month;
+   m_SelectedDay = Day;
+}
+
+void DayInfo::updateValues()
+{
+   //Tables and row names will differ for exercises and dishes
+   std::string TableName;
+   std::string Table2Name;
+   std::string Table2RowName;
+
+   std::vector<Element> *CurrentList;
+
+   //Find selected day exercises and dishes
+   for(int i = 0; i < 2; i++)
+   {
+      if(i == 0) //Exercises first, then dishes
+      {
+         TableName = "Exercises";
+         Table2Name = "ExercisesInDays";
+         Table2RowName = "ExerciseId";
+
+         CurrentList = &m_ExercisesList;
+      }
+      else
+      {
+         TableName = "Dishes";
+         Table2Name = "DishesInDays";
+         Table2RowName = "DishId";
+
+         CurrentList = &m_DishesList;
+      }
+
+      std::string Querry = "SELECT " + TableName + ".Name, " + TableName + ".Description, " + TableName + ".Calories ";
+      Querry += "FROM " + TableName + " ";
+      Querry += "INNER JOIN Days ON (Days.Year = " + std::to_string(m_SelectedYear) + ") & (Days.Month = " + std::to_string(m_SelectedMonth) + ") & (Days.Day = " + std::to_string(m_SelectedDay) + ") ";
+      Querry += "INNER JOIN " + Table2Name + " ON " + Table2Name + ".DayId = Days.Id ";
+      Querry += "WHERE " + TableName + ".Id = " + Table2Name + "." + Table2RowName;
+
+      QList<QVariantList> res;
+
+      GlobalDatabase->Open();
+      GlobalDatabase->ExecuteCustomQuerry(Querry, &res, 3);
+      GlobalDatabase->Close();
+
+
+      //Fill the appropriate list
+      CurrentList->clear();
+
+      for(const QVariantList &line : qAsConst(res)) //Some stuff just to avoid warnings
+      {
+         assert(line.size() == 3); //Must match ammount of rows, that we've extracted
+
+         CurrentList->push_back({ line.at(0).toString(), line.at(1).toString(), line.at(2).toInt() });
+      }
+
+
+      //Initialize model list with exercises
+      m_ModelData.clear();
+
+      for(Element element : m_ExercisesList)
+         m_ModelData.push_back(element.Name);
+
+      emit ModelDataChanged();
    }
 }
 
@@ -74,5 +99,49 @@ void DayInfo::removeElement(int index){
         GlobalCallendar->RemoveElement( m_dishesIndexes.at(index), false );*/
 }
 
+QStringList DayInfo::GetPopupModelData()
+{
 
 
+   return m_PopupModelData;
+}
+
+
+//Q_PROPERTY variables and methods
+
+QStringList DayInfo::GetModelData()
+{
+   return m_ModelData;
+}
+
+bool DayInfo::GetIsExercisesSelected()
+{
+   return m_IsExercisesSelected;
+}
+
+void DayInfo::SetIsExercisesSelected(bool value)
+{
+   if(value != m_IsExercisesSelected)
+   {
+      m_IsExercisesSelected = value;
+
+      emit IsExercisesSelectedChanged();
+
+      //Update model list accordingly
+      std::vector<Element> *SelectedList;
+
+      if(m_IsExercisesSelected)
+         SelectedList = &m_ExercisesList;
+      else
+         SelectedList = &m_DishesList;
+
+      m_ModelData.clear();
+
+      for(Element element : *SelectedList)
+         m_ModelData.push_back(element.Name);
+
+      emit ModelDataChanged();
+   }
+}
+
+//Q_PROPERTY variables and methods --end

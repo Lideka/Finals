@@ -3,6 +3,8 @@ import QtQuick.Controls 2.14
 
 import Callendar 1.0
 
+import DayInfo 1.0
+
 Item{
 
    property int dayCount: 0
@@ -83,9 +85,12 @@ Item{
                anchors.fill: parent
 
                onClicked: {
+                  Callendar.selectedDay = parseInt(Callendar.daysList[index])
+
                   windowTitle = Callendar.selectedMonthString + " " + Callendar.daysList[index] + ", " + Callendar.selectedYear
+                  DayInfo.setCurrentDate(Callendar.selectedYear, Callendar.selectedMonth, Callendar.daysList[index])
+
                   contentLoader.source = "DayInfoView.qml"
-                  console.log(weekDays.height)
                }
             }
          }
