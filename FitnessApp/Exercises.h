@@ -7,15 +7,13 @@ class Exercises : public QObject
 {
     Q_OBJECT
 
-
 public:
     explicit Exercises(QObject *parent = nullptr);
 
-    struct Exercise{
-        QString name;
-        int calories;
-
-        QString description;
+    struct Exercise {
+        QString Name;
+        QString Description;
+        int Calories;
     };
 
     std::vector<Exercise> GetExercisesList();
@@ -25,10 +23,9 @@ public:
 
     int GetTotalCalories();
 
-    QString GetNameByIndex(int index);
-    int GetCaloriesByIndex(int index);
-
 private:
+
+    void UpdateExercisesList();
 
     static std::vector<Exercise> m_ExercisesList;
 
