@@ -156,8 +156,8 @@ void Callendar::UpdateSelectedMYString()
       "December",
    };
 
-   m_SelectedMYString = MonthNames[m_SelectedMonth - 1] + ", " + QString::number(m_SelectedYear);
-   emit SelectedMYChanged();
+   m_SelectedMonthString = MonthNames[m_SelectedMonth - 1];
+   emit SelectedMonthStringChanged();
 }
 
 //Helpers

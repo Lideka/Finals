@@ -21,7 +21,7 @@ public:
    Q_PROPERTY(int firstLaunchDay MEMBER m_FirstLaunchDay NOTIFY FirstLaunchDayChanged);
 
 
-   Q_PROPERTY(QString selectedMYString MEMBER m_SelectedMYString NOTIFY SelectedMYChanged);
+   Q_PROPERTY(QString selectedMonthString MEMBER m_SelectedMonthString NOTIFY SelectedMonthStringChanged);
 
    Q_PROPERTY(QStringList weekDays READ GetWeekDays NOTIFY WeekDaysChanged);
    Q_PROPERTY(QStringList daysList READ GetDaysList NOTIFY DaysListChanged);
@@ -41,7 +41,7 @@ signals:
    void FirstLaunchMonthChanged();
    void FirstLaunchDayChanged();
 
-   void SelectedMYChanged();
+   void SelectedMonthStringChanged();
 
    void WeekDaysChanged();
    void DaysListChanged();
@@ -67,7 +67,7 @@ private:
    int m_FirstLaunchDay = -1;
 
 
-   QString m_SelectedMYString;
+   QString m_SelectedMonthString;
 
    struct DayInfo_t {
       int Year;

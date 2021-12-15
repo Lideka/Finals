@@ -23,5 +23,6 @@
         <file>Pictures/fullWaterDropIcon.png</file>
         <file>Pictures/ArrowLeft.png</file>
         <file>Pictures/ArrowRight.png</file>
+        <file>QmlHelpers/Borders.qml</file>
     </qresource>
 </RCC>

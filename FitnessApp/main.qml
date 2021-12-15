@@ -53,7 +53,7 @@ Window {
       x: 0
       y: 0
 
-      source: "CallendarView.qml"//"Home.qml"
+      source: "Home.qml"//"CallendarView.qml"
    }
 
    //Main window interface code
@@ -80,8 +80,35 @@ Window {
          font.pointSize: 20
       }
 
-      //0.64 ratio, vertically bigger
+      //Backward arrow to go back
       Image {
+         //0.64 ratio, vertically bigger
+         id: backArrow
+
+         anchors.left: parent.left
+         anchors.leftMargin: 10
+         anchors.verticalCenter: parent.verticalCenter
+
+         visible: contentLoader.source == "qrc:/DayInfoView.qml" ? true : false
+
+         source: "Pictures/ArrowLeft.png"
+
+         height: parent.height * 0.7
+         width: height * 0.64
+
+         MouseArea {
+            anchors.fill: parent
+            onClicked:  {
+               contentLoader.source = "CallendarView.qml"
+               windowTitle = Callendar.selectedMonthString + ", " + Callendar.selectedYear //Need to update every time, since qml is wonderful
+            }
+         }
+      }
+
+
+      //Forward/backward arrows for callendar
+      Image {
+         //0.64 ratio, vertically bigger
          id: arrowRight
 
          anchors.rightMargin: 10
@@ -99,7 +126,7 @@ Window {
             anchors.fill: parent
             onClicked: {
                Callendar.arrowClicked(true)
-               windowTitle = Callendar.selectedMYString //Need to update every time, since qml is wonderful
+               windowTitle = Callendar.selectedMonthString + ", " + Callendar.selectedYear //Need to update every time, since qml is wonderful
             }
          }
       }
@@ -123,7 +150,7 @@ Window {
             anchors.fill: parent
             onClicked:  {
                Callendar.arrowClicked(false)
-               windowTitle = Callendar.selectedMYString //Need to update every time, since qml is wonderful
+               windowTitle = Callendar.selectedMonthString + ", " + Callendar.selectedYear //Need to update every time, since qml is wonderful
             }
          }
       }
@@ -132,11 +159,11 @@ Window {
 
 
    property variant buttons: [
-      { name: "Namai",                              file: "Home.qml",          image: "Pictures/homeLogo.png" },
-      { name: "Pasnikas",                           file: "Fasting.qml",       image: "Pictures/fastingLogo.png" },
-      { name: Callendar.selectedMYString,           file: "CallendarView.qml", image: "Pictures/callendarLogo.png" },
-      { name: "#4",                                 file: "ElementsView.qml",  image: "Pictures/dishesLogo.png" },
-      { name: "Nustatymai",                         file: "Settings.qml",      image: "Pictures/settingsLogo.png" }
+      { name: "Namai",                                                        file: "Home.qml",          image: "Pictures/homeLogo.png" },
+      { name: "Pasnikas",                                                     file: "Fasting.qml",       image: "Pictures/fastingLogo.png" },
+      { name: Callendar.selectedMonthString + ", " + Callendar.selectedYear,  file: "CallendarView.qml", image: "Pictures/callendarLogo.png" },
+      { name: "#4",                                                           file: "ElementsView.qml",  image: "Pictures/dishesLogo.png" },
+      { name: "Nustatymai",                                                   file: "Settings.qml",      image: "Pictures/settingsLogo.png" }
    ];
 
    GridView {

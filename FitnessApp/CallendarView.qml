@@ -83,7 +83,7 @@ Item{
                anchors.fill: parent
 
                onClicked: {
-                  windowTitle = Callendar.daysList[index]
+                  windowTitle = Callendar.selectedMonthString + " " + Callendar.daysList[index] + ", " + Callendar.selectedYear
                   contentLoader.source = "DayInfoView.qml"
                   console.log(weekDays.height)
                }
