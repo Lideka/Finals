@@ -48,6 +48,8 @@ void Dishes::UpdateDishesList()
    QList<QVariantList> querryResult = GlobalDatabase->ExecuteSelectQuerry("Dishes", "Name, Description, Calories");
    GlobalDatabase->Close();
 
+   m_DishesList.clear();
+
    for(const QVariantList &line : qAsConst(querryResult))
       AddDish(line.at(0).toString(), line.at(1).toInt(), line.at(2).toString());
 

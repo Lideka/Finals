@@ -20,6 +20,12 @@ public:
    Q_PROPERTY(QStringList popupModelData READ GetPopupModelData NOTIFY PopupModelDataChanged);
 
    Q_INVOKABLE void addToAdditionList(QString name);
+   Q_INVOKABLE void removeFromAdditionList(QString name);
+   Q_INVOKABLE void addSelectedElements();
+
+   /*Q_INVOKABLE void addToRemovalList(QString name);
+   Q_INVOKABLE void removeFromRemovalList(QString name);*/
+   Q_INVOKABLE void removeSelectedElements();
 
 signals:
    void ModelDataChanged();
@@ -30,6 +36,7 @@ signals:
 
 private:
 
+   //This is ok only while Exercises and Dishes have the same properties
    struct Element {
       QString Name;
       QString Description;
@@ -59,6 +66,7 @@ private:
 
 
    QStringList m_ElementsAdditionList;
+   QStringList m_ElementsRemovalList;
 };
 
 #endif // DAYINFO_H

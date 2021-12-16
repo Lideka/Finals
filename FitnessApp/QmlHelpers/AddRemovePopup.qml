@@ -72,7 +72,7 @@ Popup {
       }
 
 
-      //Backward arrow to go back
+      //Forward arrow to execute action
       Image {
          //0.64 ratio, vertically bigger
          id: confirmArrow
@@ -89,6 +89,7 @@ Popup {
          MouseArea {
             anchors.fill: parent
             onClicked: {
+               DayInfo.addSelectedElements()
                contentLoader.source = backDirection
                popup.close()
             }
@@ -106,7 +107,7 @@ Popup {
       width: parent.width
       height: parent.height - (popupBar.height - 1)
 
-      model: DayInfo.popupModelData //[1, 2, 3]
+      model: DayInfo.popupModelData
 
       clip: true
 
@@ -130,12 +131,33 @@ Popup {
             }
          }
 
+         MouseArea {
+            anchors.fill: parent
+
+            onClicked: {
+               if(addCheckBox.checkState == Qt.Unchecked)
+                  addCheckBox.checkState = Qt.Checked
+               else if(addCheckBox.checkState == Qt.Checked)
+                  addCheckBox.checkState = Qt.Unchecked
+               else //Should never come to this statement, unless tristate is set to true
+                  addCheckBox.checkState = Qt.Unchecked
+            }
+         }
+
          CheckBox {
+            id: addCheckBox
             anchors.left: parent.left
             anchors.leftMargin: 10
             anchors.verticalCenter: parent.verticalCenter
 
-            visible: removalMode
+            onCheckStateChanged: {
+               if(checkState)
+                  DayInfo.addToAdditionList(modelData)
+               else
+                  DayInfo.removeFromAdditionList(modelData)
+            }
+
+            Component.onCompleted: checkState = Qt.Unchecked
          }
 
       }

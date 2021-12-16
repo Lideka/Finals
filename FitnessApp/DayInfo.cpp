@@ -6,14 +6,9 @@
 
 #include "Database.h"
 
+
 DayInfo::DayInfo(QObject *parent) : QObject(parent)
 {
-
-}
-
-void DayInfo::addToAdditionList(QString name)
-{
-   m_ElementsAdditionList.push_back(name);
 }
 
 void DayInfo::setCurrentDate(int Year, int Month, int Day)
@@ -92,6 +87,88 @@ void DayInfo::updateValues()
 }
 
 
+//AddPopup Q_PROPERTY variables and methods
+
+void DayInfo::addToAdditionList(QString name)
+{
+   m_ElementsAdditionList.push_back(name);
+}
+
+void DayInfo::removeFromAdditionList(QString name)
+{
+   m_ElementsAdditionList.removeAll(name); //We can use removeAll, since dish/exerc names are unique
+}
+
+void DayInfo::addSelectedElements()
+{
+   //Tables and row names will differ for exercises and dishes
+   std::string InsertTableName;
+   std::string InsertTableColumnName;
+   std::string ElementsTableName;
+
+   if(GetIsExercisesSelected())
+   {
+      InsertTableName = "ExercisesInDays";
+      InsertTableColumnName = "ExerciseId";
+      ElementsTableName = "Exercises";
+   }
+   else
+   {
+      InsertTableName = "DishesInDays";
+      InsertTableColumnName = "DishId";
+      ElementsTableName = "Dishes";
+   }
+
+   std::string Querry;
+
+   GlobalDatabase->Open();
+
+   QList<QVariantList> res = GlobalDatabase->ExecuteSelectQuerry("Days", "Id", "(Year = " + std::to_string(m_SelectedYear) + ") & (Month = " + std::to_string(m_SelectedMonth) + ") & (Day = " + std::to_string(m_SelectedDay) + ")");
+
+   //Check if the day exists in the database. Add it if it doesnt.
+   if(res.empty())
+   {
+      GlobalDatabase->ExecuteInsertQuerry("Days", "Year, Month, Day", std::to_string(m_SelectedYear) + ", " + std::to_string(m_SelectedMonth) + ", " + std::to_string(m_SelectedDay));
+   }
+   else
+   {
+      assert(res.size() == 1 && res.at(0).size() == 1);
+   }
+
+   for(const QString &name : qAsConst(m_ElementsAdditionList))
+   {
+      Querry = "INSERT INTO " + InsertTableName + " (DayId, " + InsertTableColumnName + ") ";
+      Querry += "SELECT Days.Id, " + ElementsTableName + ".Id FROM Days ";
+      Querry += "INNER JOIN " + ElementsTableName + " ON " + ElementsTableName + ".Name = \"" + name.toStdString() + "\" ";
+      Querry += "WHERE (Days.Year = " + std::to_string(m_SelectedYear) + ") & (Days.Month = " + std::to_string(m_SelectedMonth) + ") & (Days.Day = " + std::to_string(m_SelectedDay) + ")";
+
+      GlobalDatabase->ExecuteCustomQuerry(Querry);
+   }
+
+   GlobalDatabase->Close();
+   m_ElementsAdditionList.clear();
+}
+
+
+/*void DayInfo::addToRemovalList(QString name)
+{
+   m_ElementsRemovalList.push_back(name);
+}
+
+void DayInfo::removeFromRemovalList(QString name)
+{
+   m_ElementsRemovalList.removeAll(name); //We can use removeAll, since dish/exerc names are unique
+}*/
+
+void DayInfo::removeSelectedElements()
+{
+
+}
+
+
+//AddPopup Q_PROPERTY variables and methods --end
+
+
 //Q_PROPERTY variables and methods
 
 QStringList DayInfo::GetModelData()
@@ -122,7 +199,7 @@ void DayInfo::SetIsExercisesSelected(bool value)
 
       m_ModelData.clear();
 
-      for(Element element : *SelectedList)
+      for(const Element &element : *SelectedList)
          m_ModelData.push_back(element.Name);
 
       emit ModelDataChanged();
