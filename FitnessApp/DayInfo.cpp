@@ -79,31 +79,16 @@ void DayInfo::updateValues()
       //Initialize model list with exercises
       m_ModelData.clear();
 
-      for(Element element : m_ExercisesList)
+      for(const Element &element : m_ExercisesList)
          m_ModelData.push_back(element.Name);
 
       emit ModelDataChanged();
    }
-}
 
-void DayInfo::addElement(int index){
-   //Should be replaced with logic from db
-   //GlobalCallendar->AddElement(index, m_isExerciseSelected);
-}
+   GlobalExercises->UpdateExercisesList();
+   GlobalDishes->UpdateDishesList();
 
-void DayInfo::removeElement(int index){
-   //Should be replaced with logic from DB
-   /*if(m_isExerciseSelected)
-        GlobalCallendar->RemoveElement( m_exercisesIndexes.at(index), true );
-    else
-        GlobalCallendar->RemoveElement( m_dishesIndexes.at(index), false );*/
-}
-
-QStringList DayInfo::GetPopupModelData()
-{
-
-
-   return m_PopupModelData;
+   emit PopupModelDataChanged();
 }
 
 
@@ -141,7 +126,34 @@ void DayInfo::SetIsExercisesSelected(bool value)
          m_ModelData.push_back(element.Name);
 
       emit ModelDataChanged();
+
+
+      //Update popup model accordingly
+      emit PopupModelDataChanged();
    }
+}
+
+
+QStringList DayInfo::GetPopupModelData()
+{
+   QStringList retval = {};
+
+   if(m_IsExercisesSelected)
+   {
+      std::vector<Exercises::Exercise> AllExercises = GlobalExercises->GetExercisesList();
+
+      for(const Exercises::Exercise &exercise : AllExercises)
+         retval.push_back(exercise.Name);
+   }
+   else
+   {
+      std::vector<Dishes::Dish> AllDishes = GlobalDishes->GetDishesList();
+
+      for(const Dishes::Dish &dish : AllDishes)
+         retval.push_back(dish.Name);
+   }
+
+   return retval;
 }
 
 //Q_PROPERTY variables and methods --end

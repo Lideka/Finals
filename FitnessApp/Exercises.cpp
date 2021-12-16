@@ -12,8 +12,6 @@ Exercises::Exercises(QObject *parent) : QObject(parent)
 
 std::vector<Exercises::Exercise> Exercises::GetExercisesList()
 {
-   UpdateExercisesList();
-
    return m_ExercisesList;
 }
 
@@ -48,6 +46,8 @@ void Exercises::UpdateExercisesList()
    GlobalDatabase->Open();
    QList<QVariantList> querryResult = GlobalDatabase->ExecuteSelectQuerry("Exercises", "Name, Description, Calories");
    GlobalDatabase->Close();
+
+   m_ExercisesList.clear();
 
    for(const QVariantList &line : qAsConst(querryResult))
       AddExercise(line.at(0).toString(), line.at(1).toInt(), line.at(2).toString());

@@ -11,9 +11,9 @@ public:
    explicit Dishes(QObject *parent = nullptr);
 
    struct Dish {
-      QString name;
-      int calories;
-      QString description;
+      QString Name;
+      int Calories;
+      QString Description;
    };
 
    std::vector<Dish> GetDishesList();
@@ -23,9 +23,9 @@ public:
 
    int GetTotalCalories();
 
-private:
-
    void UpdateDishesList();
+
+private:
 
    static std::vector<Dish> m_DishesList;
 

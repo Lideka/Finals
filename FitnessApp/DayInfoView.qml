@@ -4,219 +4,157 @@ import QtQuick.Controls 2.5
 import DayInfo 1.0
 import Elements 1.0
 
+import Callendar 1.0
+
+import "QmlHelpers"
+
 Item {
 
-    width: secondWindowWidth
-    height: secondWindowHeight
+   property bool removalMode: false
 
-    Text {
-        id: year
+   width: secondWindowWidth
+   height: secondWindowHeight
 
-        y: 120
+   Button {
+      id: exercisesTab
 
-        anchors.horizontalCenter: parent.horizontalCenter
+      y: topBar.height - 1 //-1 so the border doesn't seem too thicc
+      anchors.left: parent.left
 
-        text: qsTr("Metai: " + DayInfo.year)
-    }
+      width: secondWindowWidth / 2
 
-    Text {
-        id: date
+      text: "Exercises"
 
-        anchors.top: year.bottom
-        anchors.topMargin: 20
-        anchors.horizontalCenter: parent.horizontalCenter
+      flat: !DayInfo.isExercisesSelected //Highlight button, if it's pressed
+      onClicked: DayInfo.isExercisesSelected = true
 
-        text: qsTr("Data: " +  + DayInfo.date)
-    }
+      //Borders
+      Rectangle {
+         anchors.fill: parent
+         color: "transparent"
 
-    Text {
-        id: calories
+         border.color: "black"
+         border.width: 1
+      }
+   }
 
-        anchors.top: date.bottom
-        anchors.topMargin: 20
-        anchors.horizontalCenter: parent.horizontalCenter
+   Button {
+      id: dishesTab
 
-        text: qsTr("Kalorijų skirtumas: " + DayInfo.calories)
-    }
+      y: topBar.height - 1 //-1 so the border doesn't seem too thicc
+      anchors.right: parent.right
 
-    Item{
-        id: lists
+      width: secondWindowWidth / 2
 
-        width: secondWindowWidth - 200
-        height: 200
+      text: "Dishes"
 
-        anchors.top: calories.bottom
-        anchors.topMargin: 20
-        anchors.horizontalCenter: parent.horizontalCenter
+      flat: DayInfo.isExercisesSelected //Highlight button, if it's pressed
+      onClicked: DayInfo.isExercisesSelected = false
 
-        Item {
-            id: exercisesBox
+      //Borders
+      Rectangle {
+         anchors.fill: parent
+         color: "transparent"
 
-            width: 200
+         border.color: "black"
+         border.width: 1
+      }
+   }
+
+
+   ListView {
+      id: mainList
+
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.top: exercisesTab.bottom
+
+      width: parent.width
+      height: secondWindowHeight - (topBar.height - 1) - exercisesTab.height - addButton.height
+
+      model: DayInfo.modelData
+
+      clip: true
+
+      delegate: Item {
+         width: parent.width
+         height: 80
+
+         Rectangle {
+            width: parent.width
             height: parent.height
 
+            color: "transparent"
+
+            border.width: 1
+            border.color: "red"
+
+            Text {
+               anchors.centerIn: parent
+
+               text: modelData
+            }
+         }
+
+         CheckBox {
             anchors.left: parent.left
+            anchors.leftMargin: 10
+            anchors.verticalCenter: parent.verticalCenter
 
-            ListView {
-                id: elementsList
+            visible: removalMode
+         }
 
-                anchors.horizontalCenter: parent.horizontalCenter
+      }
 
-                model: DayInfo.exercisesList
+   }
 
-                width: parent.width
-                height: parent.height
+   Button {
+      id: addButton
 
-                clip: true
+      anchors.left: parent.left
+      anchors.bottom: parent.bottom
 
-                delegate: Button {
-                    width: exercisesBox.width
-                    height: 50
+      width: secondWindowWidth / 2
 
-                    text: DayInfo.exercisesList[index]
+      text: removalMode ? "Remove" : "Add"
 
-                    onClicked: {
-                        Elements.selectedElement = DayInfo.getElementId(index, true)
-                        Elements.isExercisesSelected = true
+      onClicked: {
+         if(!removalMode)
+            popup1.openPopup(DayInfo.isExercisesSelected, "qrc:/DayInfoView.qml")
+         else
+            console.log("Do somethinf for removal mode")
+      }
+   }
+
+   Button {
+      id: removeButton
+
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+
+      width: secondWindowWidth / 2
+
+      text: removalMode ? "Cancel" : "Remove"
+
+      onClicked: removalMode = !removalMode
+   }
 
 
-                        contentLoader.source = "ElementInfoView.qml"
-                    }
-                }
-            }
+   AddRemovePopup {
+      id: popup1
 
-            Rectangle {
-                id: exercisesBorders
 
-                anchors.fill: parent
+      //Borders
+      Rectangle {
+         anchors.fill: parent
+         color: "transparent"
 
-                border.width: 1
+         border.color: "black"
+         border.width: 1
+      }
 
-                color: 'transparent'
-            }
-        }
-
-        Item {
-            id: dishesBox
-
-            width: 200
-            height: parent.height
-
-            anchors.right: parent.right
-
-            ListView {
-                id: dishesList
-
-                anchors.horizontalCenter: parent.horizontalCenter
-
-                model: DayInfo.dishesList
-
-                width: parent.width
-                height: parent.height
-
-                clip: true
-
-                delegate: Button {
-                    width: dishesBox.width
-                    height: 50
-
-                    text: DayInfo.dishesList[index]
-
-                    onClicked: {
-                        Elements.selectedElement = DayInfo.getElementId(index, false)
-                        Elements.isDishesSelected = true
-
-                        contentLoader.source = "ElementInfoView.qml"
-                    }
-                }
-            }
-
-            Rectangle {
-                id: dishesBorders
-
-                anchors.fill: parent
-
-                border.width: 1
-
-                color: 'transparent'
-            }
-        }
-
-    }
-
-    Button{
-        id: addExercise
-
-        y: lists.y + lists.height + 10
-        anchors.left: lists.left
-
-        width: 200
-
-        text: "Pridėti pratimą"
-
-        onClicked: {
-            DayInfo.isAddSelected = true
-            DayInfo.isExerciseSelected = true
-
-            contentLoader.source = "DayAddRemoveView.qml"
-        }
-    }
-
-    Button{
-        id: removeExercise
-
-        anchors.top: addExercise.bottom
-        anchors.topMargin: 10
-        anchors.horizontalCenter: addExercise.horizontalCenter
-
-        width: 200
-
-        text: "Ištrinti pratimą"
-
-        onClicked: {
-            DayInfo.isAddSelected = false
-            DayInfo.isExerciseSelected = true
-
-            contentLoader.source = "DayAddRemoveView.qml"
-        }
-    }
-
-    Button{
-        id: addDish
-
-        anchors.right: lists.right
-        y: lists.y + lists.height + 10
-
-        width: 200
-
-        text: "Pridėti patiekalą"
-
-        onClicked: {
-            DayInfo.isAddSelected = true
-            DayInfo.isExerciseSelected = false
-
-            contentLoader.source = "DayAddRemoveView.qml"
-        }
-    }
-
-    Button{
-        id: removeDish
-
-        anchors.top: addDish.bottom
-        anchors.topMargin: 10
-        anchors.horizontalCenter: addDish.horizontalCenter
-
-        width: 200
-
-        text: "Ištrinti patiekalą"
-
-        onClicked: {
-            DayInfo.isAddSelected = false
-            DayInfo.isExerciseSelected = false
-
-            contentLoader.source = "DayAddRemoveView.qml"
-        }
-    }
+      width: parent.width
+      height: parent.height
+   }
 
     Component.onCompleted: DayInfo.updateValues()
 }

@@ -24,5 +24,6 @@
         <file>Pictures/ArrowLeft.png</file>
         <file>Pictures/ArrowRight.png</file>
         <file>QmlHelpers/Borders.qml</file>
+        <file>QmlHelpers/AddRemovePopup.qml</file>
     </qresource>
 </RCC>

@@ -26,7 +26,7 @@ void Elements::updateLists()
 
     if(!GlobalDishes->GetDishesList().empty())
         for(size_t i = 0; i < GlobalDishes->GetDishesList().size(); i++)
-            dishesNames.push_back(GlobalDishes->GetDishesList().at(i).name);
+            dishesNames.push_back(GlobalDishes->GetDishesList().at(i).Name);
 
     m_DishesNamesList = dishesNames;
     emit DishesNamesListChanged();
@@ -50,10 +50,10 @@ void Elements::initializeElementsInfo()
         m_ElementName = m_DishesNamesList.at(m_SelectedElement);
         emit ElementNameChanged();
 
-        m_ElementCalories = std::to_string(GlobalDishes->GetDishesList().at(m_SelectedElement).calories).c_str();
+        m_ElementCalories = std::to_string(GlobalDishes->GetDishesList().at(m_SelectedElement).Calories).c_str();
         emit ElementCaloriesChanged();
 
-        m_ElementDescription = GlobalDishes->GetDishesList().at(m_SelectedElement).description;
+        m_ElementDescription = GlobalDishes->GetDishesList().at(m_SelectedElement).Description;
         emit ElementDescriptionChanged();
     }
 }
@@ -77,7 +77,7 @@ void Elements::addElement(QString name, QString calories, QString description){
         }
         else if(m_IsDishesSelected){
             for(size_t i = 0; i < GlobalDishes->GetDishesList().size(); i++){
-                if(GlobalDishes->GetDishesList().at(i).name == name){
+                if(GlobalDishes->GetDishesList().at(i).Name == name){
                     qDebug() << "Elements::addElement this dish name already exists";
                     return;
                 }
@@ -115,7 +115,7 @@ void Elements::removeElement(QString name){
     }
     else if(m_IsDishesSelected){
         for(size_t i = 0; i < GlobalDishes->GetDishesList().size(); i++){
-            if(GlobalDishes->GetDishesList().at(i).name == name){
+            if(GlobalDishes->GetDishesList().at(i).Name == name){
                GlobalDishes->RemoveDish(i);
                qDebug() << "Patiekalas sėkmingai ištrintas";
                return;

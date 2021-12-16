@@ -14,8 +14,6 @@ Dishes::Dishes(QObject *parent) : QObject(parent)
 
 std::vector<Dishes::Dish> Dishes::GetDishesList()
 {
-   UpdateDishesList();
-
    return m_DishesList;
 }
 
@@ -23,9 +21,9 @@ void Dishes::AddDish(QString name, int calories, QString description) //Only use
 {
    Dish newDish;
 
-   newDish.name = name;
-   newDish.calories = calories;
-   newDish.description = description;
+   newDish.Name = name;
+   newDish.Calories = calories;
+   newDish.Description = description;
 
    m_DishesList.push_back(newDish);
 }
@@ -39,7 +37,7 @@ int Dishes::GetTotalCalories() {
    int sum = 0;
 
    for(const Dish &dish : m_DishesList)
-      sum += dish.calories;
+      sum += dish.Calories;
 
    return sum;
 }

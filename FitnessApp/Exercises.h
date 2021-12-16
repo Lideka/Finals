@@ -23,9 +23,9 @@ public:
 
     int GetTotalCalories();
 
-private:
-
     void UpdateExercisesList();
+
+private:
 
     static std::vector<Exercise> m_ExercisesList;
 
