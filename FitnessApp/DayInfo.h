@@ -23,8 +23,8 @@ public:
    Q_INVOKABLE void removeFromAdditionList(QString name);
    Q_INVOKABLE void addSelectedElements();
 
-   /*Q_INVOKABLE void addToRemovalList(QString name);
-   Q_INVOKABLE void removeFromRemovalList(QString name);*/
+   Q_INVOKABLE void addToRemovalList(int index);
+   Q_INVOKABLE void removeFromRemovalList(int index);
    Q_INVOKABLE void removeSelectedElements();
 
 signals:
@@ -66,7 +66,7 @@ private:
 
 
    QStringList m_ElementsAdditionList;
-   QStringList m_ElementsRemovalList;
+   QList<int> m_ElementsIndexRemovalList;
 };
 
 #endif // DAYINFO_H

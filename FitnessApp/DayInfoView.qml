@@ -99,13 +99,17 @@ Item {
             anchors.fill: parent
 
             onClicked: {
-               if(removeCheckBox.checkState == Qt.Unchecked)
-                  removeCheckBox.checkState = Qt.Checked
-               else if(removeCheckBox.checkState == Qt.Checked)
-                  removeCheckBox.checkState = Qt.Unchecked
-               else //Should never come to this statement, unless tristate is set to true
-                  removeCheckBox.checkState = Qt.Unchecked
+               if(removalMode)
+               {
+                  if(removeCheckBox.checkState == Qt.Unchecked)
+                     removeCheckBox.checkState = Qt.Checked
+                  else if(removeCheckBox.checkState == Qt.Checked)
+                     removeCheckBox.checkState = Qt.Unchecked
+                  else //Should never come to this statement, unless tristate is set to true
+                     removeCheckBox.checkState = Qt.Unchecked
+               }
             }
+
          }
 
          CheckBox {
@@ -116,7 +120,14 @@ Item {
 
             visible: removalMode
 
-            Component.onCompleted: checkState = Qt.Unchecked
+            onCheckStateChanged: {
+               if(checkState)
+                  DayInfo.addToRemovalList(index)
+               else
+                  DayInfo.removeFromRemovalList(index)
+            }
+
+            onVisibleChanged: checkState = Qt.Unchecked
          }
 
       }
@@ -137,7 +148,10 @@ Item {
          if(!removalMode)
             popup1.openPopup(DayInfo.isExercisesSelected, "qrc:/DayInfoView.qml")
          else
-            console.log("Do somethinf for removal mode")
+         {
+            DayInfo.removeSelectedElements()
+            removalMode = !removalMode
+         }
       }
    }
 
@@ -172,5 +186,8 @@ Item {
       height: parent.height
    }
 
-    Component.onCompleted: DayInfo.updateValues()
+    Component.onCompleted: {
+       DayInfo.updateValues()
+       DayInfo.isExercisesSelected = true
+    }
 }

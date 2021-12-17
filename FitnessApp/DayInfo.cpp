@@ -47,7 +47,7 @@ void DayInfo::updateValues()
          CurrentList = &m_DishesList;
       }
 
-      std::string Querry = "SELECT " + TableName + ".Name, " + TableName + ".Description, " + TableName + ".Calories ";
+      std::string Querry = "SELECT " + TableName + ".Name, " + TableName + ".Description, " + TableName + ".Calories, " + Table2Name + ".Count ";
       Querry += "FROM " + TableName + " ";
       Querry += "INNER JOIN Days ON (Days.Year = " + std::to_string(m_SelectedYear) + ") & (Days.Month = " + std::to_string(m_SelectedMonth) + ") & (Days.Day = " + std::to_string(m_SelectedDay) + ") ";
       Querry += "INNER JOIN " + Table2Name + " ON " + Table2Name + ".DayId = Days.Id ";
@@ -56,7 +56,7 @@ void DayInfo::updateValues()
       QList<QVariantList> res;
 
       GlobalDatabase->Open();
-      GlobalDatabase->ExecuteCustomQuerry(Querry, &res, 3);
+      GlobalDatabase->ExecuteCustomQuerry(Querry, &res, 4);
       GlobalDatabase->Close();
 
 
@@ -65,11 +65,11 @@ void DayInfo::updateValues()
 
       for(const QVariantList &line : qAsConst(res)) //Some stuff just to avoid warnings
       {
-         assert(line.size() == 3); //Must match ammount of rows, that we've extracted
+         assert(line.size() == 4); //Must match ammount of rows, that we've extracted
 
-         CurrentList->push_back({ line.at(0).toString(), line.at(1).toString(), line.at(2).toInt() });
+         for(int i = 0; i < line.at(3).toInt(); i++) //4th element is count. Tells us how many elements there are
+            CurrentList->push_back({ line.at(0).toString(), line.at(1).toString(), line.at(2).toInt() });
       }
-
 
       //Initialize model list with exercises
       m_ModelData.clear();
@@ -135,14 +135,44 @@ void DayInfo::addSelectedElements()
       assert(res.size() == 1 && res.at(0).size() == 1);
    }
 
+   GlobalDatabase->Close();
+
    for(const QString &name : qAsConst(m_ElementsAdditionList))
    {
-      Querry = "INSERT INTO " + InsertTableName + " (DayId, " + InsertTableColumnName + ") ";
-      Querry += "SELECT Days.Id, " + ElementsTableName + ".Id FROM Days ";
-      Querry += "INNER JOIN " + ElementsTableName + " ON " + ElementsTableName + ".Name = \"" + name.toStdString() + "\" ";
-      Querry += "WHERE (Days.Year = " + std::to_string(m_SelectedYear) + ") & (Days.Month = " + std::to_string(m_SelectedMonth) + ") & (Days.Day = " + std::to_string(m_SelectedDay) + ")";
+      int count = 0;
 
+      for(const QString &existingName : GetModelData())
+         if(name == existingName)
+            count++;
+
+      if(count > 0)
+      {
+         //Element already exists, increment the count
+         Querry = "UPDATE " + InsertTableName + " SET Count = " + std::to_string(count+1) + " ";
+         Querry += "WHERE " + InsertTableName + ".Id = ( ";
+         Querry += "SELECT " + InsertTableName + ".Id FROM " + InsertTableName + " ";
+         Querry += "INNER JOIN Days ON (Days.Year = " + std::to_string(m_SelectedYear) + ") & (Days.Month = " + std::to_string(m_SelectedMonth) + ") & (Days.Day = " + std::to_string(m_SelectedDay) + ") ";
+         Querry += "INNER JOIN " + ElementsTableName + " ON " + ElementsTableName + ".Name = \"" + name.toStdString() + "\" ";
+         Querry += "WHERE (" + InsertTableName + ".DayId = Days.Id) & (" + InsertTableName + ".ExerciseId = " + ElementsTableName + ".Id)";
+         Querry += ")";
+      }
+      else if(count == 0)
+      {
+         //Element doesn't exist yet, add it
+         Querry = "INSERT INTO " + InsertTableName + " (DayId, " + InsertTableColumnName + ", Count) ";
+         Querry += "SELECT Days.Id, " + ElementsTableName + ".Id, 1 FROM Days ";
+         Querry += "INNER JOIN " + ElementsTableName + " ON " + ElementsTableName + ".Name = \"" + name.toStdString() + "\" ";
+         Querry += "WHERE (Days.Year = " + std::to_string(m_SelectedYear) + ") & (Days.Month = " + std::to_string(m_SelectedMonth) + ") & (Days.Day = " + std::to_string(m_SelectedDay) + ")";
+      }
+      else
+         assert(false); //Unknown scenario
+
+
+      //Need to open/close database before each time calling this, since we update values and we close db there
+      GlobalDatabase->Open();
       GlobalDatabase->ExecuteCustomQuerry(Querry);
+      GlobalDatabase->Close();
+      updateValues();
    }
 
    GlobalDatabase->Close();
@@ -150,21 +180,84 @@ void DayInfo::addSelectedElements()
 }
 
 
-/*void DayInfo::addToRemovalList(QString name)
+void DayInfo::addToRemovalList(int index)
 {
-   m_ElementsRemovalList.push_back(name);
+   m_ElementsIndexRemovalList.push_back(index);
 }
 
-void DayInfo::removeFromRemovalList(QString name)
+void DayInfo::removeFromRemovalList(int index)
 {
-   m_ElementsRemovalList.removeAll(name); //We can use removeAll, since dish/exerc names are unique
-}*/
+   m_ElementsIndexRemovalList.removeAll(index);
+}
 
 void DayInfo::removeSelectedElements()
 {
+   QStringList ElementsNameToRemove = {};
 
+   //Find names in accordance with provided indexes
+   for(int index : qAsConst(m_ElementsIndexRemovalList))
+      ElementsNameToRemove.push_back(GetModelData().at(index));
+
+
+   //Tables and row names will differ for exercises and dishes
+   std::string Table1Name;
+   std::string Table1ColumnName;
+   std::string ElementsTableName;
+
+   if(GetIsExercisesSelected())
+   {
+      Table1Name = "ExercisesInDays";
+      Table1ColumnName = "ExerciseId";
+      ElementsTableName = "Exercises";
+   }
+   else
+   {
+      Table1Name = "DishesInDays";
+      Table1ColumnName = "DishId";
+      ElementsTableName = "Dishes";
+   }
+
+   std::string Querry;
+
+
+   for(const QString &name : qAsConst(ElementsNameToRemove))
+   {
+      int count = 0;
+
+      for(const QString &existingName : GetModelData())
+         if(name == existingName)
+            count++;
+
+      if(count > 1)
+      {
+         //Substract the count
+         Querry = "UPDATE " + Table1Name + " SET Count = " + std::to_string(count-1) + " ";
+      }
+      else if(count == 1)
+      {
+         //Delete the record
+         Querry = "DELETE FROM " + Table1Name + " ";
+      }
+      else
+         assert(false); //Unknown scenario
+
+
+      Querry += "WHERE " + Table1Name + ".Id = ( ";
+      Querry += "SELECT " + Table1Name + ".Id FROM " + Table1Name + " ";
+      Querry += "INNER JOIN Days ON (Days.Year = " + std::to_string(m_SelectedYear) + ") & (Days.Month = " + std::to_string(m_SelectedMonth) + ") & (Days.Day = " + std::to_string(m_SelectedDay) + ") ";
+      Querry += "INNER JOIN " + ElementsTableName + " ON " + ElementsTableName + ".Name = \"" + name.toStdString() + "\" ";
+      Querry += "WHERE (" + Table1Name + ".DayId = Days.Id) & (" + Table1Name + ".ExerciseId = " + ElementsTableName + ".Id)";
+      Querry += ")";
+
+      GlobalDatabase->Open();
+      GlobalDatabase->ExecuteCustomQuerry(Querry);
+      GlobalDatabase->Close();
+
+      updateValues();
+   }
+
+   m_ElementsIndexRemovalList.clear();
 }
-
 
 //AddPopup Q_PROPERTY variables and methods --end
 
