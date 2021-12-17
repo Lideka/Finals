@@ -52,6 +52,4 @@ void Dishes::UpdateDishesList()
 
    for(const QVariantList &line : qAsConst(querryResult))
       AddDish(line.at(0).toString(), line.at(1).toInt(), line.at(2).toString());
-
-   qDebug() << m_DishesList.size() << " dishes updated";
 }

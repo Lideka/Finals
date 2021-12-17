@@ -33,10 +33,6 @@ Window {
 
    property string windowTitle: "Home"
 
-   //ElementsView properties
-   //property bool isExercisesSelected: false
-   //property bool isDishesSelected: false
-
    //Local qml properties --end
 
 

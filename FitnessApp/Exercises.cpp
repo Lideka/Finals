@@ -51,6 +51,4 @@ void Exercises::UpdateExercisesList()
 
    for(const QVariantList &line : qAsConst(querryResult))
       AddExercise(line.at(0).toString(), line.at(1).toInt(), line.at(2).toString());
-
-   qDebug() << GetExercisesList().size() << " exercises updated";
 }
