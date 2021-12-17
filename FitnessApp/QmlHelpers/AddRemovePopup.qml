@@ -157,7 +157,7 @@ Popup {
                   DayInfo.removeFromAdditionList(modelData)
             }
 
-            Component.onCompleted: checkState = Qt.Unchecked
+            onVisibleChanged: checkState = Qt.Unchecked
          }
 
       }
