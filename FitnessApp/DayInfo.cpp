@@ -74,7 +74,12 @@ void DayInfo::updateValues()
       //Initialize model list with exercises
       m_ModelData.clear();
 
-      for(const Element &element : m_ExercisesList)
+      if(m_IsExercisesSelected)
+         CurrentList = &m_ExercisesList;
+      else
+         CurrentList = &m_DishesList;
+
+      for(const Element &element : *CurrentList)
          m_ModelData.push_back(element.Name);
 
       emit ModelDataChanged();
@@ -153,7 +158,7 @@ void DayInfo::addSelectedElements()
          Querry += "SELECT " + InsertTableName + ".Id FROM " + InsertTableName + " ";
          Querry += "INNER JOIN Days ON (Days.Year = " + std::to_string(m_SelectedYear) + ") & (Days.Month = " + std::to_string(m_SelectedMonth) + ") & (Days.Day = " + std::to_string(m_SelectedDay) + ") ";
          Querry += "INNER JOIN " + ElementsTableName + " ON " + ElementsTableName + ".Name = \"" + name.toStdString() + "\" ";
-         Querry += "WHERE (" + InsertTableName + ".DayId = Days.Id) & (" + InsertTableName + ".ExerciseId = " + ElementsTableName + ".Id)";
+         Querry += "WHERE (" + InsertTableName + ".DayId = Days.Id) & (" + InsertTableName + "." + InsertTableColumnName + " = " + ElementsTableName + ".Id)";
          Querry += ")";
       }
       else if(count == 0)
@@ -246,7 +251,7 @@ void DayInfo::removeSelectedElements()
       Querry += "SELECT " + Table1Name + ".Id FROM " + Table1Name + " ";
       Querry += "INNER JOIN Days ON (Days.Year = " + std::to_string(m_SelectedYear) + ") & (Days.Month = " + std::to_string(m_SelectedMonth) + ") & (Days.Day = " + std::to_string(m_SelectedDay) + ") ";
       Querry += "INNER JOIN " + ElementsTableName + " ON " + ElementsTableName + ".Name = \"" + name.toStdString() + "\" ";
-      Querry += "WHERE (" + Table1Name + ".DayId = Days.Id) & (" + Table1Name + ".ExerciseId = " + ElementsTableName + ".Id)";
+      Querry += "WHERE (" + Table1Name + ".DayId = Days.Id) & (" + Table1Name + "." + Table1ColumnName + " = " + ElementsTableName + ".Id)";
       Querry += ")";
 
       GlobalDatabase->Open();
