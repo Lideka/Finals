@@ -4,7 +4,7 @@ Database* GlobalDatabase = nullptr;
 
 Database::Database(std::string DatabaseFilePath)
 {
-   qDebug() << "Initializing database...";
+   qDebug() << "Initializing database..." << DatabaseFilePath.c_str();
 
    m_Database = QSqlDatabase::addDatabase("QSQLITE");
    m_Database.setDatabaseName(DatabaseFilePath.c_str());

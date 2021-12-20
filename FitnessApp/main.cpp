@@ -33,17 +33,19 @@ int main(int argc, char *argv[])
 #elif ANDROID
    //Copy db file to android (not complete yet)
    QString source = "I:/Projects/Finals/FitnessApp/Lib/Database/Database.db";
-   QString dest = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/Database.db";
+   QString dest = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+   QString fullDest =  dest + "/Database.db";
 
-   if(QFile::exists(dest))
+   if(QFile::exists(fullDest))
    {
-      assert(QFile::remove(dest));
+      //assert(QFile::remove(dest));
    }
 
-   QDir DestDir(dest);
+   QDir DestDir(fullDest);
+   qDebug() << QFile::copy(source, fullDest);
 
-   qDebug() << "Naujas path: "  << DestDir.path();
-   dbPath = dest;
+   qDebug() << "Naujas path: "  << fullDest << " exists: " << DestDir.exists();
+   dbPath = fullDest;
 #endif
 
 
