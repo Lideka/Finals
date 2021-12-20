@@ -1,0 +1,5 @@
+android.bundle.enableUncompressedNativeLibs=false
+androidBuildToolsVersion=32.0.0
+androidCompileSdkVersion=31
+buildDir=build
+qt5AndroidDir=I:/Apps/Qt/5.14.2/android/src/android/java
