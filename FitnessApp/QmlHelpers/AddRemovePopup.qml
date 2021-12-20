@@ -48,53 +48,6 @@ Popup {
          }
       }
 
-      //Backward arrow to go back
-      Image {
-         //0.64 ratio, vertically bigger
-         id: backArrow
-
-         anchors.left: parent.left
-         anchors.leftMargin: 10
-         anchors.verticalCenter: parent.verticalCenter
-
-         source: "../Pictures/ArrowLeft.png"
-
-         height: parent.height * 0.7
-         width: height * 0.64
-
-         MouseArea {
-            anchors.fill: parent
-            onClicked: {
-               contentLoader.source = backDirection
-               popup.close()
-            }
-         }
-      }
-
-
-      //Forward arrow to execute action
-      Image {
-         //0.64 ratio, vertically bigger
-         id: confirmArrow
-
-         anchors.right: parent.right
-         anchors.rightMargin: 10
-         anchors.verticalCenter: parent.verticalCenter
-
-         source: "../Pictures/ArrowRight.png"
-
-         height: parent.height * 0.7
-         width: height * 0.64
-
-         MouseArea {
-            anchors.fill: parent
-            onClicked: {
-               DayInfo.addSelectedElements()
-               contentLoader.source = backDirection
-               popup.close()
-            }
-         }
-      }
    }
 
 
@@ -162,6 +115,41 @@ Popup {
 
       }
 
+   }
+
+
+
+   Button {
+      id: addButton
+
+      anchors.left: parent.left
+      anchors.bottom: parent.bottom
+
+      width: parent.width / 2
+
+      text: "Add"
+
+      onClicked: {
+         contentLoader.source = backDirection
+         popup.close()
+      }
+   }
+
+   Button {
+      id: cancelButton
+
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+
+      width: parent.width / 2
+
+      text: "Cancel"
+
+      onClicked: {
+         DayInfo.addSelectedElements()
+         contentLoader.source = backDirection
+         popup.close()
+      }
    }
 
 }
