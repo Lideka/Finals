@@ -17,6 +17,9 @@ Window {
    minimumWidth: defaultWidth
    minimumHeight: defaultHeight
 
+   maximumWidth: defaultWidth
+   maximumHeight: defaultHeight
+
    visible: true //Apparently not visible by default
 
    title: qsTr("Fiznio aktyvumo planavimo irankis")
@@ -25,8 +28,8 @@ Window {
 
    //Local qml properties
 
-   property int defaultWidth: 700
-   property int defaultHeight: 700
+   property int defaultWidth: Callendar.osType === "android" ? Screen.width : 700
+   property int defaultHeight: Callendar.osType === "android" ? Screen.height : 700
 
    property int secondWindowWidth: window.width
    property int secondWindowHeight: window.height - bottomBox.height

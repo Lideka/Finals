@@ -64,6 +64,7 @@ private:
    std::vector<Element> m_ExercisesList;
    std::vector<Element> m_DishesList;
 
+   //Add popup variables
 
    QStringList m_ElementsAdditionList;
    QList<int> m_ElementsIndexRemovalList;

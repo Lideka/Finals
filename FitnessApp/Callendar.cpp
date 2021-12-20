@@ -13,6 +13,16 @@ Callendar* GlobalCallendar = nullptr;
 
 Callendar::Callendar(bool isFirstLaunch, QObject *parent) : QObject(parent)
 {
+#ifdef ANDROID
+   m_OSType = "android";
+#elif WIN32
+   m_OSType = "win32";
+#else
+   assert(false);
+#endif
+
+   emit OSTypeChanged();
+
    //Find current year and month
    std::time_t t = std::time(nullptr);
    std::tm *const pTInfo = std::localtime(&t);

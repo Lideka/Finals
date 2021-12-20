@@ -9,6 +9,8 @@ class Callendar : public QObject
 public:
    explicit Callendar(bool isFirstLaunch, QObject *parent = nullptr);
 
+   Q_PROPERTY(QString osType MEMBER m_OSType NOTIFY OSTypeChanged);
+
    Q_PROPERTY(int selectedYear MEMBER m_SelectedYear NOTIFY SelectedYearChanged);
    Q_PROPERTY(int selectedMonth MEMBER m_SelectedMonth NOTIFY SelectedMonthChanged);
    Q_PROPERTY(int selectedDay MEMBER m_SelectedDay NOTIFY SelectedDayChanged);
@@ -21,7 +23,6 @@ public:
    Q_PROPERTY(int firstLaunchMonth MEMBER m_FirstLaunchMonth NOTIFY FirstLaunchMonthChanged);
    Q_PROPERTY(int firstLaunchDay MEMBER m_FirstLaunchDay NOTIFY FirstLaunchDayChanged);
 
-
    Q_PROPERTY(QString selectedMonthString MEMBER m_SelectedMonthString NOTIFY SelectedMonthStringChanged);
 
    Q_PROPERTY(QStringList weekDays READ GetWeekDays NOTIFY WeekDaysChanged);
@@ -32,6 +33,8 @@ public:
    Q_INVOKABLE void arrowClicked(bool isRight);
 
 signals:
+   void OSTypeChanged();
+
    void SelectedYearChanged();
    void SelectedMonthChanged();
    void SelectedDayChanged();
@@ -52,15 +55,11 @@ signals:
 private:
 
    //Q_PROPERTY variables
+   QString m_OSType;
 
    int m_SelectedYear = -1;
    int m_SelectedMonth = -1;
    int m_SelectedDay = -1;
-
-   QStringList GetWeekDays();
-   QStringList GetDaysList();
-
-   //Q_PROPERTY variables --end
 
    int m_CurrentYear = -1;
    int m_CurrentMonth = -1;
@@ -70,8 +69,13 @@ private:
    int m_FirstLaunchMonth = -1;
    int m_FirstLaunchDay = -1;
 
-
    QString m_SelectedMonthString;
+
+   QStringList GetWeekDays();
+   QStringList GetDaysList();
+
+   //Q_PROPERTY variables --end
+
 
    struct DayInfo_t {
       int Year;

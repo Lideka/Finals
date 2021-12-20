@@ -25,9 +25,30 @@ int main(int argc, char *argv[])
          QCoreApplication::exit(-1);
    }, Qt::QueuedConnection);
 
+   QString dbPath;
+
+#ifdef WIN32
+   dbPath = "I:/Projects/Finals/FitnessApp/Lib/Database/Database.db";
+
+#elif ANDROID
+   //Copy db file to android (not complete yet)
+   QString source = "I:/Projects/Finals/FitnessApp/Lib/Database/Database.db";
+   QString dest = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/Database.db";
+
+   if(QFile::exists(dest))
+   {
+      assert(QFile::remove(dest));
+   }
+
+   QDir DestDir(dest);
+
+   qDebug() << "Naujas path: "  << DestDir.path();
+   dbPath = dest;
+#endif
+
 
    //Create and connect global main database
-   Database db("I:/Projects/Finals/FitnessApp/Lib/Database/Database.db");
+   Database db(dbPath.toStdString());
    GlobalDatabase = &db;
 
    //Check if the app is launched for the first time

@@ -19,24 +19,28 @@ Item{
 
       y: topBar.height //Bad solution but work
 
+      interactive: false
+
       anchors.horizontalCenter: parent.horizontalCenter
 
-      width: 700
+      width: secondWindowWidth
       height: 20
+
+      cellWidth: secondWindowWidth / 7; cellHeight: 20
 
       model: Callendar.weekDays
 
       //Unsure why it doesn't work if I put text here directly D:
-      delegate: Item{
+      delegate: Item {
 
-         width: 100
+         width: secondWindowWidth / 7
          height: 20
 
             Text {
                id: weekDay
                text: modelData
                anchors.centerIn:  parent
-               font.pixelSize: 17
+               font.pixelSize: 14
             }
       }
 
@@ -47,9 +51,9 @@ Item{
 
       anchors.top: weekDays.bottom
 
-      width: 700; height: 500
+      width: secondWindowWidth; height: (secondWindowWidth / 7) * 5
 
-      cellWidth: 100; cellHeight: 100
+      cellWidth: secondWindowWidth / 7; cellHeight: secondWindowWidth / 7
 
       interactive: false
 
@@ -60,8 +64,8 @@ Item{
 
          Rectangle{
             id: rect
-            width: 100
-            height: 100
+            width: grid.cellWidth
+            height: grid.cellHeight
 
             color: date.text === "-1" ? "grey" : "transparent"
 
@@ -85,6 +89,10 @@ Item{
                anchors.fill: parent
 
                onClicked: {
+                  //Do not open day info, if the day is greyed out
+                  if(Callendar.firstLaunchYear === Callendar.selectedYear && Callendar.firstLaunchMonth === Callendar.selectedMonth && parseInt(Callendar.daysList[index]) < Callendar.firstLaunchDay)
+                     return;
+
                   Callendar.selectedDay = parseInt(Callendar.daysList[index])
 
                   windowTitle = Callendar.selectedMonthString + " " + Callendar.daysList[index] + ", " + Callendar.selectedYear
