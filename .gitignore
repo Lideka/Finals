@@ -1696,3 +1696,5 @@ build-AnApp-Android_Qt_5_14_2_Clang_Multi_Abi-Debug/android-build/assets/android
 build-AnApp-Android_Qt_5_14_2_Clang_Multi_Abi-Debug/android-build/assets/android_rcc_bundle/qml/QtGraphicalEffects/BrightnessContrast.qml
 build-AnApp-Android_Qt_5_14_2_Clang_Multi_Abi-Debug/android-build/assets/android_rcc_bundle/qml/QtGraphicalEffects/Blend.qml
 build-AnApp-Android_Qt_5_14_2_Clang_Multi_Abi-Debug/android-build/assets/android_rcc_bundle/android_rcc_bundle.qrc
+Builds/FitnessAppDebug/debug/moc_Settings.cpp
+Builds/FitnessAppDebug/debug/moc_GUIInterface.cpp
