@@ -5,10 +5,17 @@
 
 //classes connected to view qml files
 #include "GUIInterface.h"
+#include "Home.h"
+#include "Fasting.h"
 #include "Callendar.h"
 #include "DayInfo.h"
+#include "Settings.h"
+
+#include "Elements.h"
 #include "Exercises.h"
 #include "Dishes.h"
+
+#include <chrono> //tests
 
 int main(int argc, char *argv[])
 {
@@ -23,6 +30,12 @@ int main(int argc, char *argv[])
       if (!obj && url == objUrl)
          QCoreApplication::exit(-1);
    }, Qt::QueuedConnection);
+
+   std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+   std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+   qDebug() << "Time difference = " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() << "[µs]";//tests
+   qDebug() << "Time difference = " << std::chrono::duration_cast<std::chrono::nanoseconds> (end - begin).count() << "[ns]";//tests
 
    QString dbPath;
 
@@ -87,6 +100,12 @@ int main(int argc, char *argv[])
 
    Home home;
    qmlRegisterSingletonInstance("Home", 1, 0, "Home", &home);
+
+   Fasting fasting;
+   qmlRegisterSingletonInstance("Fasting", 1, 0, "Fasting", &fasting);
+
+   Settings settings;
+   qmlRegisterSingletonInstance("Settings", 1, 0, "Settings", &settings);
 
    //Create global qml controllers --end
 

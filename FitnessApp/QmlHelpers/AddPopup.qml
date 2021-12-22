@@ -130,6 +130,7 @@ Popup {
       text: "Add"
 
       onClicked: {
+         DayInfo.addSelectedElements()
          contentLoader.source = backDirection
          popup.close()
       }
@@ -146,7 +147,6 @@ Popup {
       text: "Cancel"
 
       onClicked: {
-         DayInfo.addSelectedElements()
          contentLoader.source = backDirection
          popup.close()
       }

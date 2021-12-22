@@ -51,7 +51,7 @@ Item{
 
       anchors.top: weekDays.bottom
 
-      width: secondWindowWidth; height: (secondWindowWidth / 7) * 5
+      width: secondWindowWidth; height: (secondWindowWidth / 7) * 6
 
       cellWidth: secondWindowWidth / 7; cellHeight: secondWindowWidth / 7
 

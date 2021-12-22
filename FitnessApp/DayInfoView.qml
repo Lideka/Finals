@@ -26,7 +26,12 @@ Item {
       text: "Exercises"
 
       flat: !DayInfo.isExercisesSelected //Highlight button, if it's pressed
-      onClicked: DayInfo.isExercisesSelected = true
+      onClicked: {
+         if(DayInfo.isExercisesSelected === false)
+            removalMode = false
+
+         DayInfo.isExercisesSelected = true
+      }
 
       //Borders
       Rectangle {
@@ -49,7 +54,12 @@ Item {
       text: "Dishes"
 
       flat: DayInfo.isExercisesSelected //Highlight button, if it's pressed
-      onClicked: DayInfo.isExercisesSelected = false
+      onClicked: {
+         if(DayInfo.isExercisesSelected === true)
+            removalMode = false
+
+         DayInfo.isExercisesSelected = false
+      }
 
       //Borders
       Rectangle {
@@ -169,7 +179,7 @@ Item {
    }
 
 
-   AddRemovePopup {
+   AddPopup {
       id: popup1
 
 
@@ -187,6 +197,7 @@ Item {
    }
 
     Component.onCompleted: {
+       backArrowDir = "CallendarView.qml"
        DayInfo.updateValues()
        DayInfo.isExercisesSelected = true
     }
