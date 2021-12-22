@@ -2,10 +2,6 @@
 
 #include "Database.h"
 
-//#include <QtCharts>
-
-//using namespace QtCharts;
-
 #include <QDebug>
 #include <ctime>
 

@@ -4,10 +4,9 @@
 #include "Database.h"
 
 //classes connected to view qml files
+#include "GUIInterface.h"
 #include "Callendar.h"
-#include "Elements.h"
 #include "DayInfo.h"
-#include "Home.h"
 #include "Exercises.h"
 #include "Dishes.h"
 
@@ -71,6 +70,10 @@ int main(int argc, char *argv[])
 
    Dishes* dishes = new Dishes();
    GlobalDishes = dishes;
+
+   GUIInterface guiInterface;
+   qmlRegisterSingletonInstance("GUIInterface", 1, 0, "GUIInterface", &guiInterface);
+   GlobalGUI = &guiInterface;
 
    Callendar callendar(isFirstLaunch);
    qmlRegisterSingletonInstance("Callendar", 1, 0, "Callendar", &callendar);
