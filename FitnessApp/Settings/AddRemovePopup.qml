@@ -105,54 +105,10 @@ Item {
 
       onClicked: {
          if(nameTextField.text == "" || caloriesTextField.text == "" || descriptionTextField.text == "")
-            showErrorPopup("All of the fields must be filled out!")
+            gui.showErrorPopup("All of the fields must be filled out!")
          else
             Settings.addElement(nameTextField.text, caloriesTextField.text, descriptionTextArea.text)
       }
    }
-
-
-   //All qml elements needed for removing an element
-   /*Item {
-      width: parent.width
-      height: parent.height
-
-      //visible: Elements.isRemoveSelected
-
-      Text {
-         id: nameToRemoveLabel
-
-         y: 150
-
-         anchors.horizontalCenter: parent.horizontalCenter
-
-         //text: Elements.isExercisesSelected ? qsTr("Įveskite norimo ištrinti pratimo pavadinimą: ") : qsTr("Įveskite norimo ištrinti patiekalo pavadinimą: ")
-      }
-
-      TextField {
-         id: nameToRemoveTextField
-
-         anchors.top: nameToRemoveLabel.bottom
-         anchors.topMargin: 5
-         anchors.horizontalCenter: parent.horizontalCenter
-
-         //visible: Elements.isExercisesSelected
-      }
-
-      Button {
-         id: removeElementButton
-
-         text: "Ištrinti"
-
-         anchors.top: nameToRemoveTextField.bottom
-         anchors.topMargin: 20
-
-         anchors.horizontalCenter: parent.horizontalCenter
-
-         //onClicked: Elements.removeElement(nameToRemoveTextField.text)
-      }
-   }*/
-
-
 }
 

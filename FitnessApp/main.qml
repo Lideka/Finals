@@ -223,6 +223,7 @@ Window {
    GUI {
       id: gui
       anchors.centerIn: parent
+      anchors.fill: parent
    }
 
 }

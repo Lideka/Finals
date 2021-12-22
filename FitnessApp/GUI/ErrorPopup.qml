@@ -7,6 +7,7 @@ Popup {
 
    id: popup
 
+   closePolicy: "CloseOnEscape"
    padding: 0
 
    anchors.centerIn: parent
