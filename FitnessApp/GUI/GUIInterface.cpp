@@ -7,7 +7,12 @@ GUIInterface::GUIInterface(QObject *parent) : QObject(parent)
 
 }
 
+void GUIInterface::ShowMessagePopup(std::string Title, std::string Message)
+{
+   emit showMessagePopup(Title.c_str(), Message.c_str());
+}
+
 void GUIInterface::ShowErrorPopup(std::string Message)
 {
-   emit showErrorPopup(Message.c_str());
+   emit showMessagePopup("Error!", Message.c_str());
 }

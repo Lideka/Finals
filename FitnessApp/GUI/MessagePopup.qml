@@ -4,6 +4,7 @@ import QtQuick.Controls 2.12
 Popup {
 
    property string popupText
+   property string popupTitle
 
    id: popup
 
@@ -31,7 +32,7 @@ Popup {
 
       Text {
          id: title
-         text: "Error!"
+         text: popupTitle
 
          anchors.centerIn: parent
       }

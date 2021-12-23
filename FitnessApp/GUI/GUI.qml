@@ -25,9 +25,9 @@ Item {
 
    //Popups & theyr methods
 
-   //Error popup
-   ErrorPopup {
-      id: errorPopup
+   //Message popup
+   MessagePopup {
+      id: messagePopup
 
       onClosed: background.visible = false //Remove background when popup closes
    }
@@ -35,17 +35,18 @@ Item {
    Connections {
       target: GUIInterface
 
-      function onShowErrorPopup(text)
+      function onShowMessagePopup(title, text)
       {
-         showErrorPopup(text)
+         showMessagePopup(title, text)
       }
    }
 
    //Additional declaration, so we could use it in qml also
-   function showErrorPopup(text)
+   function showMessagePopup(title, text)
    {
-      errorPopup.popupText = text
-      errorPopup.open()
+      messagePopup.popupTitle = title
+      messagePopup.popupText = text
+      messagePopup.open()
       background.visible = true //Show background
 
    }

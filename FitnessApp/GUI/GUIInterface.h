@@ -9,10 +9,11 @@ class GUIInterface : public QObject
 public:
    explicit GUIInterface(QObject *parent = nullptr);
 
+   void ShowMessagePopup(std::string Title, std::string Message);
    void ShowErrorPopup(std::string Message);
 
 signals:
-   void showErrorPopup(QString Message);
+   void showMessagePopup(QString Title, QString Message);
 
 };
 

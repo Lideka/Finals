@@ -105,7 +105,7 @@ Item {
 
       onClicked: {
          if(nameTextField.text == "" || caloriesTextField.text == "" || descriptionTextField.text == "")
-            gui.showErrorPopup("All of the fields must be filled out!")
+            gui.showMessagePopup("Error!", "All of the fields must be filled out!")
          else
             Settings.addElement(nameTextField.text, caloriesTextField.text, descriptionTextArea.text)
       }

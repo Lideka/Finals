@@ -28,6 +28,6 @@
         <file>Settings/AboutUs.qml</file>
         <file>Settings/AddRemovePopup.qml</file>
         <file>GUI/GUI.qml</file>
-        <file>GUI/ErrorPopup.qml</file>
+        <file>GUI/MessagePopup.qml</file>
     </qresource>
 </RCC>
