@@ -18,6 +18,7 @@ Popup {
 
    id: popup
 
+   padding: 0
 
    Rectangle {
       id: popupBar
