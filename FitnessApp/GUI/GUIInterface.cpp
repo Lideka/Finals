@@ -16,6 +16,7 @@ void GUIInterface::ShowErrorPopup(std::string Message)
 {
    emit showMessagePopup("Error!", Message.c_str());
 }
+bool GUIInterface::ShowYesNoPopup(std::string Title, std::string Message)
 {
    qDebug() << "ShowYesNoPopup called";
    emit showYesNoPopup(Title.c_str(), Message.c_str());
