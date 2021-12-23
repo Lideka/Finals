@@ -13,6 +13,9 @@ public:
    Q_PROPERTY(int calories MEMBER m_Calories NOTIFY CaloriesChanged);
    Q_PROPERTY(QString description MEMBER m_Description NOTIFY DescriptionChanged);
 
+   Q_INVOKABLE void removeCurrentElement();
+
+
    void SetElement(bool isExercise, std::string name);
 
 signals:
@@ -24,6 +27,8 @@ private:
    QString m_Name;
    int m_Calories;
    QString m_Description;
+
+   bool m_IsCurrentElementExercise;
 
 };
 

@@ -48,7 +48,7 @@ Item {
 
         x: 20
 
-        width: 200
+        width: secondWindowHeight
         height: 200
 
         readOnly: true
@@ -60,7 +60,25 @@ Item {
 
         text: ElementInfo.description
 
+        Rectangle {
+           anchors.fill: parent
+           color: "transparent"
 
+           border.color: "black"
+           border.width: 1
+        }
+    }
+
+    Button {
+       anchors.top: descriptionText.bottom
+       anchors.topMargin: 15
+       anchors.horizontalCenter: parent.horizontalCenter
+
+       visible: isRemovalMode
+
+       text: "Remove element"
+
+       onClicked: gui.showYesNoPopup("Warning!", "If you remove this element, it will be deassigned from all of the days. Continue?")
     }
 
 }

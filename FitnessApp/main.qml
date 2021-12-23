@@ -40,6 +40,10 @@ Window {
 
    property string windowTitle: "Home"
 
+
+   //Random only ShowElementInfo specific property
+   property bool isRemovalMode: false
+
    //Local qml properties --end
 
 

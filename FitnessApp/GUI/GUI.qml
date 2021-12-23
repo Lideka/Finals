@@ -3,6 +3,8 @@ import QtQuick.Controls 2.14
 
 import GUIInterface 1.0
 
+import ElementInfo 1.0 //For yes/no dialog
+
 Item {
 
    //Grey popup background
@@ -46,8 +48,41 @@ Item {
    {
       messagePopup.popupTitle = title
       messagePopup.popupText = text
+
       messagePopup.open()
       background.visible = true //Show background
 
+   }
+
+   //Yes/No popup
+   YesNoPopup {
+      id: yesNoPopup
+
+      onClosed: {
+         if(wasYesPressed)
+            ElementInfo.removeCurrentElement()
+
+         background.visible = false //Remove background when popup closes
+      }
+   }
+
+   Connections {
+      target: GUIInterface
+
+      function onShowYesNoPopup(title, text)
+      {
+         showYesNoPopup(title, text)
+      }
+   }
+
+   function showYesNoPopup(title, text)
+   {
+      yesNoPopup.popupTitle = title
+      yesNoPopup.popupText = text
+      yesNoPopup.wasYesPressed = false
+      yesNoPopup.wasNoPressed = false
+
+      yesNoPopup.open()
+      background.visible = true //Show background
    }
 }

@@ -11,9 +11,11 @@ public:
 
    void ShowMessagePopup(std::string Title, std::string Message);
    void ShowErrorPopup(std::string Message);
+   bool ShowYesNoPopup(std::string Title, std::string Message);
 
 signals:
    void showMessagePopup(QString Title, QString Message);
+   void showYesNoPopup(QString Title, QString Message);
 
 };
 

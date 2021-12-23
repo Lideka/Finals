@@ -33,9 +33,7 @@ Item {
 
          text: menu[index].text
 
-         onClicked: {
-            contentLoader.source = menu[index].file
-         }
+         onClicked: contentLoader.source = menu[index].file
 
          //Border
          Rectangle {

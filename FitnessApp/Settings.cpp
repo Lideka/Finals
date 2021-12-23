@@ -2,6 +2,10 @@
 
 #include "Database.h"
 #include "GUIInterface.h"
+#include "ElementInfo.h"
+
+#include "Exercises.h"
+#include "Dishes.h"
 
 Settings::Settings(QObject *parent) : QObject(parent)
 {
@@ -39,4 +43,35 @@ void Settings::addElement(QString Name, QString Calories, QString Description)
    GlobalDatabase->Close();
 
    GlobalGUI->ShowMessagePopup("Success!", "Selected " + Element + " added successfuly!");
+}
+
+
+QStringList Settings::GetRemoveGlobalElementModelData()
+{
+   GlobalExercises->UpdateExercisesList();
+   GlobalDishes->UpdateDishesList();
+
+   QStringList retval = {};
+
+   if(m_IsExerciseSelected)
+   {
+      std::vector<Exercises::Exercise> AllExercises = GlobalExercises->GetExercisesList();
+
+      for(const Exercises::Exercise &exercise : AllExercises)
+         retval.push_back(exercise.Name);
+   }
+   else
+   {
+      std::vector<Dishes::Dish> AllDishes = GlobalDishes->GetDishesList();
+
+      for(const Dishes::Dish &dish : AllDishes)
+         retval.push_back(dish.Name);
+   }
+
+   return retval;
+}
+
+void Settings::setShowInfoElement(int index)
+{
+   GlobalElementInfo->SetElement(m_IsExerciseSelected, GetRemoveGlobalElementModelData().at(index).toStdString());
 }

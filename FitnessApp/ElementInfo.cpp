@@ -12,7 +12,8 @@ ElementInfo::ElementInfo(QObject *parent) : QObject(parent)
 
 void ElementInfo::SetElement(bool isExercise, std::string name)
 {
-   qDebug() << "ElementInfo::SetElement: " << name.c_str();
+   m_IsCurrentElementExercise = isExercise;
+
    std::string Table;
 
    if(isExercise)
@@ -35,4 +36,9 @@ void ElementInfo::SetElement(bool isExercise, std::string name)
 
    m_Description = res.at(0).at(1).toString();
    emit DescriptionChanged();
+}
+
+void ElementInfo::removeCurrentElement()
+{
+
 }

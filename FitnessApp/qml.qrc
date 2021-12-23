@@ -31,5 +31,6 @@
         <file>GUI/MessagePopup.qml</file>
         <file>Settings/RemoveGlobalElement.qml</file>
         <file>ShowElementInfo.qml</file>
+        <file>GUI/YesNoPopup.qml</file>
     </qresource>
 </RCC>

@@ -1,16 +1,26 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.5
+
+import Settings 1.0
+import DayInfo 1.0
 
 Item {
-   /*ListView {
+   width: secondWindowWidth
+   height: secondWindowHeight
+
+
+   ListView {
       id: mainList
 
+
+      y: topBar.height - 1 //-1 so the border doesn't seem too thicc
+
       anchors.horizontalCenter: parent.horizontalCenter
-      anchors.top: exercisesTab.bottom
 
-      width: parent.width
-      height: secondWindowHeight - (topBar.height - 1) - exercisesTab.height - addButton.height
+      width: secondWindowWidth
+      height: secondWindowHeight - (topBar.height - 1)
 
-      model: DayInfo.modelData
+      model: Settings.removeGlobalElementModelData
 
       clip: true
 
@@ -38,38 +48,13 @@ Item {
             anchors.fill: parent
 
             onClicked: {
-               if(removalMode)
-               {
-                  if(removeCheckBox.checkState == Qt.Unchecked)
-                     removeCheckBox.checkState = Qt.Checked
-                  else if(removeCheckBox.checkState == Qt.Checked)
-                     removeCheckBox.checkState = Qt.Unchecked
-                  else //Should never come to this statement, unless tristate is set to true
-                     removeCheckBox.checkState = Qt.Unchecked
-               }
+               Settings.setShowInfoElement(index)
+               isRemovalMode = true
+               contentLoader.source = "../ShowElementInfo.qml" //Because we're currently in Settings folder
             }
 
          }
-
-         CheckBox {
-            id: removeCheckBox
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-            anchors.verticalCenter: parent.verticalCenter
-
-            visible: removalMode
-
-            onCheckStateChanged: {
-               if(checkState)
-                  DayInfo.addToRemovalList(index)
-               else
-                  DayInfo.removeFromRemovalList(index)
-            }
-
-            onVisibleChanged: checkState = Qt.Unchecked
-         }
-
       }
 
-   }*/
+   }
 }

@@ -120,7 +120,7 @@ Item {
                }
                else {
                   DayInfo.setShowInfoElement(index)
-
+                  isRemovalMode = false
                   contentLoader.source = "ShowElementInfo.qml"
                }
             }

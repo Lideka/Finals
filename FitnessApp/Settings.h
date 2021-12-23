@@ -14,11 +14,21 @@ public:
 
    Q_INVOKABLE void addElement(QString Name, QString Calories, QString Description);
 
+   //RemoveGlobalElement properties and methods
+   Q_PROPERTY(QStringList removeGlobalElementModelData READ GetRemoveGlobalElementModelData NOTIFY RemoveGlobalElementModelDataChanged);
+
+   Q_INVOKABLE void setShowInfoElement(int index);
+
 signals:
    void IsExerciseSelectedChanged();
 
+   void RemoveGlobalElementModelDataChanged();
+
 private:
    bool m_IsExerciseSelected;
+
+   QStringList GetRemoveGlobalElementModelData();
+
 };
 
 #endif // SETTINGS_H
