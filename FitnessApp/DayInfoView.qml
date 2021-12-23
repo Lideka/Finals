@@ -118,6 +118,11 @@ Item {
                   else //Should never come to this statement, unless tristate is set to true
                      removeCheckBox.checkState = Qt.Unchecked
                }
+               else {
+                  DayInfo.setShowInfoElement(index)
+
+                  contentLoader.source = "ShowElementInfo.qml"
+               }
             }
 
          }

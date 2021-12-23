@@ -3,6 +3,7 @@
 
 #include "Exercises.h"
 #include "Dishes.h"
+#include "ElementInfo.h"
 
 #include "Database.h"
 
@@ -91,6 +92,10 @@ void DayInfo::updateValues()
    emit PopupModelDataChanged();
 }
 
+void DayInfo::setShowInfoElement(int index)
+{
+   GlobalElementInfo->SetElement(m_IsExercisesSelected, m_ModelData.at(index).toStdString());
+}
 
 //AddPopup Q_PROPERTY variables and methods
 

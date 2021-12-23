@@ -29,5 +29,7 @@
         <file>Settings/AddGlobalElement.qml</file>
         <file>GUI/GUI.qml</file>
         <file>GUI/MessagePopup.qml</file>
+        <file>Settings/RemoveGlobalElement.qml</file>
+        <file>ShowElementInfo.qml</file>
     </qresource>
 </RCC>

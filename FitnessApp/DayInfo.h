@@ -16,6 +16,8 @@ public:
    Q_INVOKABLE void setCurrentDate(int Year, int Month, int Day);
    Q_INVOKABLE void updateValues();
 
+   Q_INVOKABLE void setShowInfoElement(int index);
+
    //Popup properties
    Q_PROPERTY(QStringList popupModelData READ GetPopupModelData NOTIFY PopupModelDataChanged);
 

@@ -24,6 +24,7 @@ SOURCES += \
         Callendar.cpp \
         DayInfo.cpp \
         Dishes.cpp \
+        ElementInfo.cpp \
         Elements.cpp \
         Exercises.cpp \
         Fasting.cpp \
@@ -57,6 +58,7 @@ HEADERS += \
     Callendar.h \
     DayInfo.h \
     Dishes.h \
+    ElementInfo.h \
     Elements.h \
     Exercises.h \
     Fasting.h \

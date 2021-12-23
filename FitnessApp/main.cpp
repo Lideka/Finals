@@ -10,6 +10,7 @@
 #include "Callendar.h"
 #include "DayInfo.h"
 #include "Settings.h"
+#include "ElementInfo.h"
 
 #include "Elements.h"
 #include "Exercises.h"
@@ -106,6 +107,10 @@ int main(int argc, char *argv[])
 
    Settings settings;
    qmlRegisterSingletonInstance("Settings", 1, 0, "Settings", &settings);
+
+   ElementInfo elementInfo;
+   qmlRegisterSingletonInstance("ElementInfo", 1, 0, "ElementInfo", &elementInfo);
+   GlobalElementInfo = &elementInfo;
 
    //Create global qml controllers --end
 
