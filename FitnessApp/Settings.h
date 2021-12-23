@@ -9,6 +9,7 @@ class Settings : public QObject
 public:
    explicit Settings(QObject *parent = nullptr);
 
+   //AddGlobalElement properties and methods
    Q_PROPERTY(bool isExerciseSelected MEMBER m_IsExerciseSelected NOTIFY IsExerciseSelectedChanged);
 
    Q_INVOKABLE void addElement(QString Name, QString Calories, QString Description);

@@ -26,7 +26,7 @@
         <file>QmlHelpers/Borders.qml</file>
         <file>QmlHelpers/AddPopup.qml</file>
         <file>Settings/AboutUs.qml</file>
-        <file>Settings/AddRemovePopup.qml</file>
+        <file>Settings/AddGlobalElement.qml</file>
         <file>GUI/GUI.qml</file>
         <file>GUI/MessagePopup.qml</file>
     </qresource>
