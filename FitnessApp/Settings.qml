@@ -8,8 +8,8 @@ Item {
 
 
    property variant menu: [
-      { text: "Add global elements",         file: "Settings/AddRemovePopup.qml" },
-      { text: "Remove global elements",      file: "Settings/AddRemovePopup.qml" },
+      { text: "Add global elements",         file: "Settings/AddGlobalElement.qml" },
+      { text: "Remove global elements",      file: "Settings/RemoveGlobalElement.qml" },
       { text: "About us",                    file: "Settings/AboutUs.qml" }
    ];
 
