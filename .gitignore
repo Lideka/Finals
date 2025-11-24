@@ -1699,3 +1699,8 @@ build-AnApp-Android_Qt_5_14_2_Clang_Multi_Abi-Debug/android-build/assets/android
 Builds/FitnessAppDebug/debug/moc_Settings.cpp
 Builds/FitnessAppDebug/debug/moc_GUIInterface.cpp
 Builds/FitnessAppDebug/debug/moc_ElementInfo.cpp
+FitnessApp/AnApp.pro.user
+FitnessApp/Qt/Qt Maintenance Tool.lnk
+FitnessApp/Qt/Uninstall Qt.lnk
+FitnessApp/AnApp.pro.user
+Builds/*
