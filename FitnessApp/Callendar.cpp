@@ -64,7 +64,8 @@ void Callendar::updateLists(){
    m_DaysInfo.clear();
 
    //Find which day of the week the first day of the month is
-   std::tm time_in = { 0, 0, 0, 1, m_SelectedMonth - 1, m_SelectedYear - 1900 };
+   //@TODO warning was crying about uninitialized last 3 digits; just set them to 0, might be problematic in the future
+   std::tm time_in = { 0, 0, 0, 1, m_SelectedMonth - 1, m_SelectedYear - 1900, 0, 0, 0 };
    std::time_t time_temp = std::mktime(&time_in);
    const std::tm *time_out = std::localtime(&time_temp);
 

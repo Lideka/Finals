@@ -64,7 +64,7 @@ void DayInfo::updateValues()
       //Fill the appropriate list
       CurrentList->clear();
 
-      for(const QVariantList &line : qAsConst(res)) //Some stuff just to avoid warnings
+      for(const QVariantList &line : std::as_const(res)) //Some stuff just to avoid warnings
       {
          assert(line.size() == 4); //Must match ammount of rows, that we've extracted
 
@@ -147,7 +147,7 @@ void DayInfo::addSelectedElements()
 
    GlobalDatabase->Close();
 
-   for(const QString &name : qAsConst(m_ElementsAdditionList))
+   for(const QString &name : std::as_const(m_ElementsAdditionList))
    {
       int count = 0;
 
@@ -205,7 +205,7 @@ void DayInfo::removeSelectedElements()
    QStringList ElementsNameToRemove = {};
 
    //Find names in accordance with provided indexes
-   for(int index : qAsConst(m_ElementsIndexRemovalList))
+   for(int index : std::as_const(m_ElementsIndexRemovalList))
       ElementsNameToRemove.push_back(GetModelData().at(index));
 
 
@@ -230,7 +230,7 @@ void DayInfo::removeSelectedElements()
    std::string Querry;
 
 
-   for(const QString &name : qAsConst(ElementsNameToRemove))
+   for(const QString &name : std::as_const(ElementsNameToRemove))
    {
       int count = 0;
 

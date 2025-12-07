@@ -49,6 +49,6 @@ void Exercises::UpdateExercisesList()
 
    m_ExercisesList.clear();
 
-   for(const QVariantList &line : qAsConst(querryResult))
+   for(const QVariantList &line : std::as_const(querryResult))
       AddExercise(line.at(0).toString(), line.at(1).toInt(), line.at(2).toString());
 }
