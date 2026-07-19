@@ -1,6 +1,8 @@
 QT += quick sql
 #charts
 
+debug:DEFINES += SHOW_DEBUG
+
 CONFIG += c++11
 
 android
