@@ -65,7 +65,7 @@ Window {
       //Reset back arrow dir, so we could hide it if needed
       onSourceChanged: {
          console.log(source)
-         if(source != "qrc:/Settings/AboutUs.qml" && source != "qrc:/DayInfoView.qml")
+         if(!source.toString().includes("AboutUs.qml") && !source.toString().includes("DayInfoView.qml"))
             backArrowDir = ""
       }
    }
@@ -103,7 +103,7 @@ Window {
          anchors.leftMargin: 10
          anchors.verticalCenter: parent.verticalCenter
 
-         visible: backArrowDir != "" //contentLoader.source == "qrc:/DayInfoView.qml" ? true : false
+         visible: backArrowDir != ""
          onVisibleChanged: console.log("visible: " + visible)
 
          source: "Pictures/ArrowLeft.png"
