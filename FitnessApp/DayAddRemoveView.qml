@@ -51,7 +51,7 @@ Item {
 
                 onClicked: {
                     DayInfo.addElement(index)
-                    contentLoader.source = "DayInfoView.qml"
+                    navigateTo("DayInfoView.qml")
                 }
             }
         }
@@ -100,7 +100,7 @@ Item {
 
                 onClicked: {
                     DayInfo.removeElement(index)
-                    contentLoader.source = "DayInfoView.qml"
+                    navigateTo("DayInfoView.qml")
                 }
             }
         }

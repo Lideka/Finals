@@ -64,7 +64,6 @@ Window {
 
       //Reset back arrow dir, so we could hide it if needed
       onSourceChanged: {
-         console.log(source)
          if(!source.toString().includes("AboutUs.qml") && !source.toString().includes("DayInfoView.qml"))
             backArrowDir = ""
       }
@@ -103,8 +102,8 @@ Window {
          anchors.leftMargin: 10
          anchors.verticalCenter: parent.verticalCenter
 
-         visible: backArrowDir != ""
-         onVisibleChanged: console.log("visible: " + visible)
+         visible: navigationStack.length > 0
+         onVisibleChanged: console.log("backArrow visible: " + visible)
 
          source: "Pictures/ArrowLeft.png"
 
@@ -114,7 +113,7 @@ Window {
          MouseArea {
             anchors.fill: parent
             onClicked:  {
-               contentLoader.source = backArrowDir
+               navigateBack()
                windowTitle = Callendar.selectedMonthString + ", " + Callendar.selectedYear //Need to update every time, since qml is wonderful
             }
          }
@@ -181,6 +180,35 @@ Window {
       { name: "Settings",                                                     file: "Settings.qml",      image: "Pictures/settingsLogo.png" }
    ];
 
+   property var navigationStack: []
+   onNavigationStackChanged: console.log("navStack changed: " + navigationStack)
+
+   //Save navigation path
+   function navigateTo(view) {
+      console.log("** Saving " + contentLoader.source.toString() + "; switching to: " + view)
+      navigationStack.push(contentLoader.source.toString())
+      console.log("After update: " + navigationStack)
+      contentLoader.source = view
+      navigationStackChanged()
+   }
+
+   //Go a step back
+   function navigateBack() {
+      if (navigationStack.length > 0) {
+         contentLoader.source = navigationStack.pop()
+         navigationStackChanged()
+      }
+   }
+
+   //Clear queue upon changing tab
+   function switchToTab(view) {
+      navigationStack = []
+      contentLoader.source = view
+      navigationStackChanged()
+   }
+
+
+
    GridView {
       id: bottomBox
 
@@ -212,7 +240,7 @@ Window {
             anchors.fill: parent
 
             onClicked: {
-               contentLoader.source = buttons[index].file
+               switchToTab(buttons[index].file)
                windowTitle = buttons[index].name
             }
          }

@@ -126,7 +126,7 @@ Item {
                 onClicked: {
                     Elements.selectedElement = index
 
-                    contentLoader.source = "ElementInfoView.qml"
+                    navigateTo("ElementInfoView.qml")
                 }
             }
         }
@@ -157,7 +157,7 @@ Item {
         onClicked: {
             windowTitle = Elements.isExercisesSelected ? "Insert exercise" : "Insert dish"
             Elements.isAddSelected = true
-            contentLoader.source = "ElementAddRemoveView.qml"
+            navigateTo("ElementAddRemoveView.qml")
         }
     }
 
@@ -177,7 +177,7 @@ Item {
             windowTitle = Elements.isExercisesSelected ? "Remove exercise" : "Remove dish"
 
             Elements.isRemoveSelected = true
-            contentLoader.source = "ElementAddRemoveView.qml"
+            navigateTo("ElementAddRemoveView.qml")
         }
     }
 

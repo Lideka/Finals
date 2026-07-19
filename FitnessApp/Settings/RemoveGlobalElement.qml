@@ -50,7 +50,7 @@ Item {
             onClicked: {
                Settings.setShowInfoElement(index)
                isRemovalMode = true
-               contentLoader.source = "../ShowElementInfo.qml" //Because we're currently in Settings folder
+               navigateTo("../ShowElementInfo.qml") //Because we're currently in Settings folder
             }
 
          }
