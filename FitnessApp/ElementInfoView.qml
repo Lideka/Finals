@@ -14,14 +14,14 @@ Item {
         x: 20
         y: 150
 
-        text: qsTr("Pavadinimas: " + Elements.elementName)
+        text: qsTr("Name: " + Elements.elementName)
 
         font.pixelSize: 15
     }
 
     Text {
         id: calories
-        text: qsTr("Kalorijos: " + Elements.elementCalories)
+        text: qsTr("Calories: " + Elements.elementCalories)
 
         x: 20
 
@@ -33,7 +33,7 @@ Item {
 
     Text {
         id: description
-        text: qsTr("Aprašymas: ")
+        text: qsTr("Description: ")
 
         x: 20
 

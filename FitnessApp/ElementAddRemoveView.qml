@@ -22,7 +22,7 @@ Item {
 
             anchors.horizontalCenter: parent.horizontalCenter
 
-            text: qsTr("Pavadinimas: ")
+            text: qsTr("Name: ")
         }
 
         TextField {
@@ -40,7 +40,7 @@ Item {
             anchors.topMargin: 20
             anchors.horizontalCenter: parent.horizontalCenter
 
-            text: qsTr("Kalorijos: ")
+            text: qsTr("Calories: ")
         }
 
         TextField {
@@ -58,7 +58,7 @@ Item {
             anchors.topMargin: 20
             anchors.horizontalCenter: parent.horizontalCenter
 
-            text: qsTr("Aprašymas: ")
+            text: qsTr("Description: ")
         }
 
         Rectangle{
@@ -82,7 +82,7 @@ Item {
         Button {
             id: addElementButton
 
-            text: "Prideti"
+            text: "Add"
 
             anchors.top: descriptionTextField.bottom
             anchors.topMargin: 5
@@ -109,7 +109,7 @@ Item {
 
             anchors.horizontalCenter: parent.horizontalCenter
 
-            text: Elements.isExercisesSelected ? qsTr("Įveskite norimo ištrinti pratimo pavadinimą: ") : qsTr("Įveskite norimo ištrinti patiekalo pavadinimą: ")
+            text: Elements.isExercisesSelected ? qsTr("Enter exercise name to be deleted: ") : qsTr("Enter dish name to be deleted: ")
         }
 
         TextField {
