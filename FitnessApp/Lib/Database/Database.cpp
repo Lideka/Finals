@@ -4,18 +4,34 @@ Database* GlobalDatabase = nullptr;
 
 Database::Database(std::string DatabaseFilePath)
 {
+#ifdef SHOW_DEBUG
    qDebug() << "Initializing database..." << DatabaseFilePath.c_str();
+#endif
+
+   QString rawPath = "/data/user/0/org.qtproject.example/files/Database.db";
+
+
+#ifdef SHOW_DEBUG
+   QFile dbFile(rawPath);
+   qDebug() << "DB file: " << dbFile.exists();
+#endif
 
    m_Database = QSqlDatabase::addDatabase("QSQLITE");
    m_Database.setDatabaseName(DatabaseFilePath.c_str());
 
    if(m_Database.open())
    {
+#ifdef SHOW_DEBUG
       qDebug() << "Database found successfuly!";
+#endif
       m_Database.close();
    }
    else
+   {
+#ifdef SHOW_DEBUG
       qDebug() << "!Database wasn't found!";
+#endif
+   }
 }
 
 void Database::Open()
@@ -31,10 +47,16 @@ void Database::Close()
 
 bool Database::ExecuteCustomQuerry(std::string Querry, QList<QVariantList> *resultArray, int TabCount)
 {
+#ifdef SHOW_DEBUG
+   qDebug() << "Executing querry: " << Querry.c_str();
+#endif
+
    QSqlQuery query(m_Database);
    if(!query.exec(Querry.c_str())) //Exit, if an error occurs
    {
+#ifdef SHOW_DEBUG
       qDebug() << "! Database::ExecuteCustomQuerry querry execution failed: " << query.lastError();
+#endif
 
       return false;
    }
@@ -62,7 +84,7 @@ QList<QVariantList> Database::ExecuteSelectQuerry(std::string Table, std::string
    //Check the provided info
    if(Table.empty() || Tabs.empty())
    {
-#ifdef QT_DEBUG
+#ifdef SHOW_DEBUG
       qDebug() << "! Database::ExecuteSelectQuerry empty variable passed.";
 #endif
 
@@ -95,7 +117,9 @@ bool Database::ExecuteInsertQuerry(std::string Table, std::string Tabs, std::str
    //Check the provided info
    if(Table.empty() || Tabs.empty() || Values.empty())
    {
+#ifdef SHOW_DEBUG
       qDebug() << "! Database::ExecuteInsertQuerry empty variable passed.";
+#endif
 
       return {};
    }
@@ -105,7 +129,9 @@ bool Database::ExecuteInsertQuerry(std::string Table, std::string Tabs, std::str
    QSqlQuery query;
    if(!query.exec(QuerryString.c_str()))
    {
+#ifdef SHOW_DEBUG
       qDebug() << "! ExecuteSelectQuerry querry: " << QuerryString.c_str() << " execution failed";
+#endif
 
       return false;
    }

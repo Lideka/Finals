@@ -37,7 +37,7 @@ public:
     bool ExecuteCustomQuerry(std::string Querry, QList<QVariantList> *resultArray = nullptr, int TabCount = 0);
 
     QList<QVariantList> ExecuteSelectQuerry(std::string Table, std::string Tabs, std::string Where = ""); //WHERE (column = value) & (...)
-    bool ExecuteInsertQuerry(std::string Table, std::string Tabs, std::string Values);//Not sure if bool is needed
+    bool ExecuteInsertQuerry(std::string Table, std::string Tabs, std::string Values); //Not sure if bool is needed
 
 private:
     QSqlDatabase m_Database;
