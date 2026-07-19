@@ -181,13 +181,10 @@ Window {
    ];
 
    property var navigationStack: []
-   onNavigationStackChanged: console.log("navStack changed: " + navigationStack)
 
    //Save navigation path
    function navigateTo(view) {
-      console.log("** Saving " + contentLoader.source.toString() + "; switching to: " + view)
       navigationStack.push(contentLoader.source.toString())
-      console.log("After update: " + navigationStack)
       contentLoader.source = view
       navigationStackChanged()
    }
