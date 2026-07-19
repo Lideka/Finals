@@ -40,7 +40,7 @@ Item {
 
                 onClicked: {
                     Elements.isExercisesSelected = true
-                    windowTitle = "Sistemoje esantys pratimai"
+                    windowTitle = "Exercises in the system"
                 }
             }
 
@@ -71,7 +71,7 @@ Item {
 
                 onClicked: {
                     Elements.isDishesSelected = true
-                    windowTitle = "Sistemoje esantys patiekalai"
+                    windowTitle = "Dishes in the system"
 
                 }
             }
@@ -88,7 +88,7 @@ Item {
         y: 150
         anchors.horizontalCenter: parent.horizontalCenter
 
-        text: Elements.isExercisesSelected ? "Pratimai:" : "Patiekalai:"
+        text: Elements.isExercisesSelected ? "Exercises:" : "Dishes:"
 
         visible: Elements.isExercisesSelected || Elements.isDishesSelected
     }
@@ -150,12 +150,12 @@ Item {
 
         anchors.horizontalCenter: parent.horizontalCenter
 
-        text: Elements.isExercisesSelected ? "Pratimo pridėjimas" : "Patiekalo pridėjimas"
+        text: Elements.isExercisesSelected ? "Insert exercise" : "Insert dish"
 
         visible: Elements.isExercisesSelected || Elements.isDishesSelected
 
         onClicked: {
-            windowTitle = Elements.isExercisesSelected ? "Pratimo pridėjimas" : "Patiekalo pridėjimas"
+            windowTitle = Elements.isExercisesSelected ? "Insert exercise" : "Insert dish"
             Elements.isAddSelected = true
             contentLoader.source = "ElementAddRemoveView.qml"
         }
@@ -169,12 +169,12 @@ Item {
 
         anchors.horizontalCenter: parent.horizontalCenter
 
-        text: Elements.isExercisesSelected ? "Pratimo ištrinimas" : "Patiekalo ištrinimas"
+        text: Elements.isExercisesSelected ? "Remove exercise" : "Remove dish"
 
         visible: Elements.isExercisesSelected || Elements.isDishesSelected
 
         onClicked: {
-            windowTitle = Elements.isExercisesSelected ? "Pratimo ištrinimas" : "Patiekalo ištrinimas"
+            windowTitle = Elements.isExercisesSelected ? "Remove exercise" : "Remove dish"
 
             Elements.isRemoveSelected = true
             contentLoader.source = "ElementAddRemoveView.qml"
