@@ -34,7 +34,7 @@ SOURCES += \
         Home.cpp \
         Profile.cpp \
         Lib/Database/Database.cpp \
-        Settings.cpp \
+        Settings/Settings.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -68,7 +68,7 @@ HEADERS += \
     Home.h \
     Profile.h \
     Lib/Database/Database.h \
-    Settings.h
+    Settings/Settings.h
 
 android: include(C:/Users/lidek/AppData/Local/Android/Sdk/android_openssl-master/openssl.pri)
 

@@ -9,7 +9,7 @@
 #include "Fasting.h"
 #include "Callendar.h"
 #include "DayInfo.h"
-#include "Settings.h"
+#include "Settings/Settings.h"
 #include "ElementInfo.h"
 
 #include "Elements.h"
