@@ -1705,3 +1705,5 @@ FitnessApp/Qt/Uninstall Qt.lnk
 FitnessApp/AnApp.pro.user
 Builds/*
 FitnessApp/build/*
+FitnessApp/.qtcreator/AnApp.pro.user
+FitnessApp/AnApp.pro.user
