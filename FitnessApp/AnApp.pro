@@ -23,8 +23,8 @@ message($$_PRO_FILE_PWD_/Lib/Database/Database.db)
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        Callendar.cpp \
-        DayInfo.cpp \
+        Callendar/Callendar.cpp \
+        Callendar/DayInfo.cpp \
         Dishes.cpp \
         ElementInfo.cpp \
         Elements.cpp \
@@ -57,8 +57,8 @@ INCLUDEPATH += \
    GUI
 
 HEADERS += \
-    Callendar.h \
-    DayInfo.h \
+    Callendar/Callendar.h \
+    Callendar/DayInfo.h \
     Dishes.h \
     ElementInfo.h \
     Elements.h \

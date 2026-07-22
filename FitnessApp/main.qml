@@ -60,7 +60,7 @@ Window {
       x: 0
       y: 0
 
-      source: "Home.qml"//"CallendarView.qml"
+      source: "Home.qml"
 
       //Reset back arrow dir, so we could hide it if needed
       onSourceChanged: {
@@ -129,7 +129,7 @@ Window {
          anchors.right: parent.right
          anchors.verticalCenter: parent.verticalCenter
 
-         visible: contentLoader.source == "qrc:/CallendarView.qml" ? true : false
+         visible: contentLoader.source == "qrc:/Callendar/CallendarView.qml" ? true : false
 
          source: "Pictures/ArrowRight.png"
 
@@ -153,7 +153,7 @@ Window {
          anchors.rightMargin: 20
          anchors.verticalCenter: parent.verticalCenter
 
-         visible: contentLoader.source == "qrc:/CallendarView.qml" ? true : false
+         visible: contentLoader.source == "qrc:/Callendar/CallendarView.qml" ? true : false
 
          source: "Pictures/ArrowLeft.png"
 
@@ -173,11 +173,11 @@ Window {
 
 
    property variant buttons: [
-      { name: "Home",                                                         file: "Home.qml",          image: "Pictures/homeLogo.png" },
-      { name: "Fasting",                                                      file: "Fasting.qml",       image: "Pictures/fastingLogo.png" },
-      { name: Callendar.selectedMonthString + ", " + Callendar.selectedYear,  file: "CallendarView.qml", image: "Pictures/callendarLogo.png" },
-      { name: "#4",                                                           file: "ElementsView.qml",  image: "Pictures/dishesLogo.png" },
-      { name: "Settings",                                                     file: "Settings.qml",      image: "Pictures/settingsLogo.png" }
+      { name: "Home",                                                         file: "Home.qml",                    image: "Pictures/homeLogo.png" },
+      { name: "Fasting",                                                      file: "Fasting.qml",                 image: "Pictures/fastingLogo.png" },
+      { name: Callendar.selectedMonthString + ", " + Callendar.selectedYear,  file: "Callendar/CallendarView.qml", image: "Pictures/callendarLogo.png" },
+      { name: "#4",                                                           file: "Elements/ElementsView.qml",            image: "Pictures/dishesLogo.png" },
+      { name: "Settings",                                                     file: "Settings/Settings.qml",                image: "Pictures/settingsLogo.png" }
    ];
 
    property var navigationStack: []

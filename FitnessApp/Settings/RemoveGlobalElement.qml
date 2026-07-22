@@ -50,7 +50,7 @@ Item {
             onClicked: {
                Settings.setShowInfoElement(index)
                isRemovalMode = true
-               navigateTo("../ShowElementInfo.qml") //Because we're currently in Settings folder
+               navigateTo("Callendar/ShowElementInfo.qml") //Because we're currently in Settings folder
             }
 
          }

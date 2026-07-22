@@ -98,7 +98,7 @@ Item{
                   windowTitle = Callendar.selectedMonthString + " " + Callendar.daysList[index] + ", " + Callendar.selectedYear
                   DayInfo.setCurrentDate(Callendar.selectedYear, Callendar.selectedMonth, Callendar.daysList[index])
 
-                  navigateTo("DayInfoView.qml")
+                  navigateTo("Callendar/DayInfoView.qml")
                }
             }
          }

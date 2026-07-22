@@ -2,23 +2,23 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>PopupWindow.qml</file>
-        <file>CallendarView.qml</file>
+        <file>Callendar/CallendarView.qml</file>
         <file>Pictures/callendarLogo.png</file>
         <file>Pictures/notesLogo.png</file>
-        <file>DayInfoView.qml</file>
+        <file>Callendar/DayInfoView.qml</file>
         <file>ProfileView.qml</file>
-        <file>ElementsView.qml</file>
+        <file>Elements/ElementsView.qml</file>
         <file>Pictures/exercisesLogo.png</file>
         <file>Pictures/dishesLogo.png</file>
-        <file>ElementInfoView.qml</file>
-        <file>ElementAddRemoveView.qml</file>
+        <file>Elements/ElementInfoView.qml</file>
+        <file>Elements/ElementAddRemoveView.qml</file>
         <file>DayAddRemoveView.qml</file>
         <file>Pictures/homeLogo.png</file>
         <file>Pictures/fastingLogo.png</file>
         <file>Pictures/settingsLogo.png</file>
         <file>Home.qml</file>
         <file>Fasting.qml</file>
-        <file>Settings.qml</file>
+        <file>Settings/Settings.qml</file>
         <file>Pictures/emptyWaterDropIcon.png</file>
         <file>Pictures/fullWaterDropIcon.png</file>
         <file>Pictures/ArrowLeft.png</file>
@@ -30,7 +30,7 @@
         <file>GUI/GUI.qml</file>
         <file>GUI/MessagePopup.qml</file>
         <file>Settings/RemoveGlobalElement.qml</file>
-        <file>ShowElementInfo.qml</file>
+        <file>Callendar/ShowElementInfo.qml</file>
         <file>GUI/YesNoPopup.qml</file>
     </qresource>
 </RCC>

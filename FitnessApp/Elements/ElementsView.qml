@@ -32,7 +32,7 @@ Item {
 
                 anchors.centerIn: parent
 
-                source: "Pictures/exercisesLogo.png"
+                source: "qrc:/Pictures/exercisesLogo.png"
             }
 
             MouseArea{
@@ -63,7 +63,7 @@ Item {
                 width: 148
                 height: 141.616
 
-                source: "Pictures/dishesLogo.png"
+                source: "qrc:/Pictures/dishesLogo.png"
             }
 
             MouseArea{
@@ -157,7 +157,7 @@ Item {
         onClicked: {
             windowTitle = Elements.isExercisesSelected ? "Insert exercise" : "Insert dish"
             Elements.isAddSelected = true
-            navigateTo("ElementAddRemoveView.qml")
+            navigateTo("Elements/ElementAddRemoveView.qml")
         }
     }
 
@@ -177,7 +177,7 @@ Item {
             windowTitle = Elements.isExercisesSelected ? "Remove exercise" : "Remove dish"
 
             Elements.isRemoveSelected = true
-            navigateTo("ElementAddRemoveView.qml")
+            navigateTo("Elements/ElementAddRemoveView.qml")
         }
     }
 

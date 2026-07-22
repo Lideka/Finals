@@ -7,8 +7,8 @@
 #include "GUIInterface.h"
 #include "Home.h"
 #include "Fasting.h"
-#include "Callendar.h"
-#include "DayInfo.h"
+#include "Callendar/Callendar.h"
+#include "Callendar/DayInfo.h"
 #include "Settings/Settings.h"
 #include "ElementInfo.h"
 

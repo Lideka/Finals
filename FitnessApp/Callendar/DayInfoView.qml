@@ -6,7 +6,7 @@ import Elements 1.0
 
 import Callendar 1.0
 
-import "QmlHelpers"
+import "qrc:/QmlHelpers"
 
 Item {
 
@@ -121,7 +121,7 @@ Item {
                else {
                   DayInfo.setShowInfoElement(index)
                   isRemovalMode = false
-                  navigateTo("ShowElementInfo.qml")
+                  navigateTo("Callendar/ShowElementInfo.qml")
                }
             }
 
@@ -161,7 +161,7 @@ Item {
 
       onClicked: {
          if(!removalMode)
-            popup1.openPopup(DayInfo.isExercisesSelected, "qrc:/DayInfoView.qml")
+            popup1.openPopup(DayInfo.isExercisesSelected, "qrc:/Callendar/DayInfoView.qml")
          else
          {
             DayInfo.removeSelectedElements()

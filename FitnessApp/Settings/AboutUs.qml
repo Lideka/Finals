@@ -14,7 +14,7 @@ Item {
 
    Component.onCompleted: {
       console.log("Component.onCompleted")
-      backArrowDir = "Settings.qml"
+      backArrowDir = "Settings/Settings.qml"
    }
 
 }
