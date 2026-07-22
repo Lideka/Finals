@@ -26,10 +26,10 @@ SOURCES += \
         Callendar/Callendar.cpp \
         Callendar/DayInfo.cpp \
         Dishes.cpp \
-        ElementInfo.cpp \
-        Elements.cpp \
         Exercises.cpp \
-        Fasting.cpp \
+        Elements/ElementInfo.cpp \
+        Elements/Elements.cpp \
+        Fasting/Fasting.cpp \
         GUI/GUIInterface.cpp \
         Home.cpp \
         Profile.cpp \
@@ -60,10 +60,10 @@ HEADERS += \
     Callendar/Callendar.h \
     Callendar/DayInfo.h \
     Dishes.h \
-    ElementInfo.h \
-    Elements.h \
     Exercises.h \
-    Fasting.h \
+    Elements/ElementInfo.h \
+    Elements/Elements.h \
+    Fasting/Fasting.h \
     GUI/GUIInterface.h \
     Home.h \
     Profile.h \

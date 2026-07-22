@@ -17,7 +17,7 @@
         <file>Pictures/fastingLogo.png</file>
         <file>Pictures/settingsLogo.png</file>
         <file>Home.qml</file>
-        <file>Fasting.qml</file>
+        <file>Fasting/Fasting.qml</file>
         <file>Settings/Settings.qml</file>
         <file>Pictures/emptyWaterDropIcon.png</file>
         <file>Pictures/fullWaterDropIcon.png</file>

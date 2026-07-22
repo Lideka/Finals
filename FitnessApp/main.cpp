@@ -6,13 +6,13 @@
 //classes connected to view qml files
 #include "GUIInterface.h"
 #include "Home.h"
-#include "Fasting.h"
+#include "Fasting/Fasting.h"
 #include "Callendar/Callendar.h"
 #include "Callendar/DayInfo.h"
 #include "Settings/Settings.h"
-#include "ElementInfo.h"
+#include "Elements/ElementInfo.h"
 
-#include "Elements.h"
+#include "Elements/Elements.h"
 #include "Exercises.h"
 #include "Dishes.h"
 

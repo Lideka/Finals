@@ -126,7 +126,7 @@ Item {
                 onClicked: {
                     Elements.selectedElement = index
 
-                    navigateTo("ElementInfoView.qml")
+                    navigateTo("Elements/ElementInfoView.qml")
                 }
             }
         }

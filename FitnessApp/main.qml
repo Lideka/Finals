@@ -174,10 +174,10 @@ Window {
 
    property variant buttons: [
       { name: "Home",                                                         file: "Home.qml",                    image: "Pictures/homeLogo.png" },
-      { name: "Fasting",                                                      file: "Fasting.qml",                 image: "Pictures/fastingLogo.png" },
+      { name: "Fasting",                                                      file: "Fasting/Fasting.qml",         image: "Pictures/fastingLogo.png" },
       { name: Callendar.selectedMonthString + ", " + Callendar.selectedYear,  file: "Callendar/CallendarView.qml", image: "Pictures/callendarLogo.png" },
-      { name: "#4",                                                           file: "Elements/ElementsView.qml",            image: "Pictures/dishesLogo.png" },
-      { name: "Settings",                                                     file: "Settings/Settings.qml",                image: "Pictures/settingsLogo.png" }
+      { name: "#4",                                                           file: "Elements/ElementsView.qml",   image: "Pictures/dishesLogo.png" },
+      { name: "Settings",                                                     file: "Settings/Settings.qml",       image: "Pictures/settingsLogo.png" }
    ];
 
    property var navigationStack: []
