@@ -1,0 +1,61 @@
+#include "ElementInfo.h"
+
+#include "Database.h"
+
+ElementInfo* GlobalElementInfo = nullptr;
+
+ElementInfo::ElementInfo(QObject *parent) : QObject(parent)
+{
+
+}
+
+
+void ElementInfo::SetElement(bool isExercise, std::string name)
+{
+   m_IsCurrentElementExercise = isExercise;
+
+   std::string Table;
+
+   if(isExercise)
+      Table = "Exercises";
+   else
+      Table = "Dishes";
+
+   GlobalDatabase->Open();
+   QList<QVariantList> res = GlobalDatabase->ExecuteSelectQuerry(Table, "Calories, Description", "Name = \"" + name + "\"");
+   GlobalDatabase->Close();
+
+   assert(!res.empty());
+   assert(res.at(0).size() == 2);
+
+   m_Name = name.c_str();
+   emit NameChanged();
+
+   m_Calories = res.at(0).at(0).toInt();
+   emit CaloriesChanged();
+
+   m_Description = res.at(0).at(1).toString();
+   emit DescriptionChanged();
+}
+
+void ElementInfo::removeCurrentElement()
+{
+   std::string Table;
+
+   if(m_IsCurrentElementExercise)
+   {
+      Table = "Exercises";
+   }
+   else
+   {
+      Table = "Dishes";
+   }
+
+   GlobalDatabase->Open();
+
+   QList<QVariantList> res = GlobalDatabase->ExecuteSelectQuerry(Table, "Id", "Name = \"" + m_Name.toStdString() + "\"");
+
+   assert(res.size() == 1 && res.at(0).size() == 1);
+
+   //int currentElementId = res.at(0).at(0).toInt();
+}
